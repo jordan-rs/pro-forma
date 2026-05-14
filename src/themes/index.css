@@ -1,5 +1,24 @@
-@import './terminal.css';
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEMES · ENTRY POINT
+   ═══════════════════════════════════════════════════════════════════════════
+   Import order is meaningful:
+     1. `_contract.css` — defines the safe defaults at :root level so the
+        app never breaks if a theme is missing or forgets a token.
+     2. `_base.css` — the actual component styling, consuming tokens.
+     3. `<theme>.css` files — each one overrides tokens via `.style-<id>`.
+
+   To register a new theme: add an @import line below AND a registry entry
+   in `./registry.ts`. See `_contract.css` for the full authoring guide.
+   =========================================================================== */
+
+@import './_contract.css';
+@import './_base.css';
+
+@import './clean.css';
 @import './editorial.css';
-@import './modernist.css';
+@import './terminal.css';
+@import './modern.css';
 @import './institutional.css';
+@import './paper.css';
 @import './brutalist.css';
+@import './bento.css';

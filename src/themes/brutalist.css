@@ -1,25 +1,60 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · BRUTALIST
+   ═══════════════════════════════════════════════════════════════════════════
+   Origin: existing theme, lightly updated to the new contract.
+   Vibe:   Anti-grid, anti-comfort. Components touch each other (gap=0),
+           thick rules, uppercase display, red accent that demands
+           attention. Borrows from 90s indie magazines and modern Swiss
+           anti-design.
+   When to use: launch announcements, manifestos, anywhere "this is
+           different" is the message. Not for daily reading.
+
+   ───────────────────────────────────────────────────────────────────────────
+   IMPLEMENTATION NOTE
+   ───────────────────────────────────────────────────────────────────────────
+   The defining behavior of brutalist — blocks touching with no gap or
+   padding between them — is fully expressed via `--gap: 0`, `--radius: 0`,
+   and a thick `--rule-width`. No selectors are needed; the base layer
+   responds correctly.
+   =========================================================================== */
 .style-brutalist {
-  --bg:          #E8E4DD;
-  --bg-2:        #DDD7C7;
-  --bg-3:        #CFC6B0;
-  --fg:          #0A0A0A;
-  --fg-2:        #1A1A1A;
-  --fg-3:        #4A4A4A;
-  --rule:        #0A0A0A;
-  --rule-2:      #0A0A0A;
+  /* COLOR · SURFACE — high-contrast pure surfaces */
+  --bg:    #FFFFFF;
+  --bg-2:  #F2F2F2;
+  --bg-3:  #E5E5E5;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #000000;
+  --fg-2:  #2A2A2A;
+  --fg-3:  #6E6E6E;
+
+  /* COLOR · RULES — thick lines are the visual language */
+  --rule:        #000000;
+  --rule-2:      #000000;
+  --rule-width:  3px;
+
+  /* COLOR · ACCENT — fire red */
   --accent:      #D40000;
-  --accent-dim:  #8B0000;
-  --warn:        #0A0A0A;
-  --positive:    #006600;
+  --accent-dim:  #8C0000;
 
-  --display-font:    'Anton', sans-serif;
-  --body-font:       'Archivo Narrow', sans-serif;
-  --mono-font:       'DM Mono', monospace;
-  --display-weight:  400;
-  --display-italic:  normal;
-  --display-tracking: 0;
+  /* COLOR · STATE */
+  --warn:        #D40000;
+  --positive:    #006B3C;
 
-  --rule-width: 3px;
-  --pad:        18px;
-  --gap:        0px;
+  /* TYPOGRAPHY — Anton condensed, uppercase, no italics */
+  --display-font:  'Anton', 'Archivo Narrow', 'Impact', sans-serif;
+  --body-font:     'Archivo', 'Helvetica', sans-serif;
+  --mono-font:     'JetBrains Mono', ui-monospace, monospace;
+  --display-weight:    400;       /* Anton is heavy by default */
+  --display-italic:    normal;
+  --display-tracking:  0.005em;
+  --display-transform: uppercase; /* the brutalist signature */
+
+  /* SPACING — zero. Blocks touch. */
+  --pad:  18px;
+  --gap:  0;
+
+  /* RADIUS — none. Ever. */
+  --radius:    0;
+  --radius-sm: 0;
 }

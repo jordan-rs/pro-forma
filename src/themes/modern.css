@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · MODERN
+   ═══════════════════════════════════════════════════════════════════════════
+   Source: Styles/modern.md  (brand: "Ship software peacefully")
+   Vibe:   Editorial serif with a bold brand accent. IBM Plex Serif
+           throughout, deep purple as the single accent. Feels confident
+           and slightly opinionated — neither corporate nor playful.
+   When to use: launch announcements, recommendation docs where you want
+           the brand to assert itself once, in the verdict block.
+   =========================================================================== */
+.style-modern {
+  /* COLOR · SURFACE — soft warm off-white, slight purple undertone */
+  --bg:    #FBFAFC;
+  --bg-2:  #F5F3F8;
+  --bg-3:  #ECE8F1;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #111111;
+  --fg-2:  #44424A;
+  --fg-3:  #8A8794;
+
+  /* COLOR · RULES */
+  --rule:        rgba(17, 17, 17, 0.08);
+  --rule-2:      rgba(17, 17, 17, 0.18);
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT — the brand purple */
+  --accent:      #553F83;
+  --accent-dim:  #392858;
+
+  /* COLOR · STATE */
+  --warn:        #DC2626;
+  --positive:    #16A34A;
+
+  /* TYPOGRAPHY — serif everywhere except mono labels */
+  --display-font:  'IBM Plex Serif', Georgia, serif;
+  --body-font:     'IBM Plex Serif', Georgia, serif;
+  --mono-font:     'JetBrains Mono', ui-monospace, monospace;
+  --display-weight:    500;
+  --display-italic:    normal;
+  --display-tracking:  -0.015em;
+  --display-transform: none;
+
+  /* SPACING */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* RADIUS */
+  --radius:    6px;
+  --radius-sm: 3px;
+}

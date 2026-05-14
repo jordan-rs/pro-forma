@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · CLEAN  (default)
+   ═══════════════════════════════════════════════════════════════════════════
+   Source: Styles/clean.md
+   Vibe:   Stripe / Notion calm. Generous whitespace, blue accent on white,
+           geometric sans (Poppins) for display, humanist sans (Roboto) for
+           body. The safe, scannable default — best for exec one-pagers.
+   When to use: any time you want "obviously well-designed, not loud."
+   Tokens overridden vs. contract defaults: COLOR, TYPOGRAPHY.
+   =========================================================================== */
+.style-clean {
+  /* COLOR · SURFACE */
+  --bg:    #FFFFFF;
+  --bg-2:  #F9FAFB;
+  --bg-3:  #F3F4F6;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #111827;
+  --fg-2:  #4B5563;
+  --fg-3:  #9CA3AF;
+
+  /* COLOR · RULES */
+  --rule:        rgba(17, 24, 39, 0.08);
+  --rule-2:      rgba(17, 24, 39, 0.16);
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT */
+  --accent:      #3B82F6;
+  --accent-dim:  #1D4ED8;
+
+  /* COLOR · STATE */
+  --warn:        #DC2626;
+  --positive:    #16A34A;
+
+  /* TYPOGRAPHY */
+  --display-font:  'Poppins', system-ui, sans-serif;
+  --body-font:     'Roboto', system-ui, sans-serif;
+  --mono-font:     'Inconsolata', ui-monospace, monospace;
+  --display-weight:    600;
+  --display-italic:    normal;
+  --display-tracking:  -0.02em;
+  --display-transform: none;
+
+  /* SPACING — 8pt grid */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* RADIUS */
+  --radius:    8px;
+  --radius-sm: 4px;
+}

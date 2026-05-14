@@ -1,9 +1,26 @@
-import type { ProFormaProject, ComputedOutputs, BuyItem, ExecutionPhase } from '../schema'
+// ═════════════════════════════════════════════════════════════════════════════
+// EXPORT · One-pager HTML generator
+// ═════════════════════════════════════════════════════════════════════════════
+// Builds a self-contained HTML file from a ProFormaProject. The output bundles
+// theme CSS, layout CSS, base styles, and the studio bar (style/layout
+// switcher overlay so recipients can flip themes themselves).
+//
+// FOR LLMs EDITING THIS FILE
+// -----------------------------------------------------------------------------
+// - Adding a new theme? Two things to update here:
+//     1. The FONTS constant — add any new font families the theme uses to the
+//        Google Fonts URL.
+//     2. Nothing else — the studio bar reads from THEMES registry, so the new
+//        theme will auto-appear in the switcher.
+// - Adding a new layout? Same — just update the registry, no changes here.
+// =============================================================================
+
+import type { ComputedOutputs, ProFormaProject, BuyItem, ExecutionPhase } from '../schema'
 import { compute, fmtMoneyS, fmtCount } from '../compute'
 import { THEMES } from '../themes/registry'
 import { LAYOUTS } from '../layouts/registry'
 
-// ─── INLINE CSS ──────────────────────────────────────────────────────────────
+// ─── CSS BUNDLES (imported as raw strings by Vite) ──────────────────────────
 // Imported as raw strings at build time via Vite's ?raw suffix.
 // Each file is inlined into the exported HTML so it runs standalone.
 
@@ -11,30 +28,118 @@ import themesCSS  from '../themes/index.css?raw'
 import layoutsCSS from '../layouts/layouts.css?raw'
 import blocksCSS  from '../blocks/blocks.css?raw'
 
-// ─── BLOCK HTML RENDERERS ────────────────────────────────────────────────────
-// Pure functions: project + computed → HTML string.
-// Each renderer mirrors its Svelte counterpart but outputs a string
-// (for the static export — no reactivity needed).
+
+// ─── FONT LOADING ───────────────────────────────────────────────────────────
+// Every font family referenced by ANY theme must be loaded here. The export
+// runs offline-friendly (single HTML file), so this single <link> covers all
+// 8 themes' typographic needs.
+//
+// When adding a new theme: add its fonts (display, body, mono) to the URL.
+
+const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inconsolata:wght@400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Montserrat:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Poppins:wght@300;400;500;600;700&family=PT+Mono&family=Roboto:wght@300;400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">`
+
+
+// ─── STUDIO BAR CSS ─────────────────────────────────────────────────────────
+// The style/layout switcher overlay shipped with every exported one-pager.
+// It uses its own narrow palette (not theme tokens, not workshop tokens) so
+// it looks consistent no matter which theme the user flips to.
+
+const STUDIO_BAR_CSS = `
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #16161C; }
+  .studio-bar {
+    position: sticky; top: 0; z-index: 100;
+    background: #0A0A0E; border-bottom: 1px solid #25252E;
+    padding: 12px 24px; display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    color: #B5B5BD; font-size: 11px;
+  }
+  .studio-bar .grp { display: flex; gap: 4px; align-items: center; }
+  .studio-bar .lbl {
+    color: #6D6D78; text-transform: uppercase;
+    margin-right: 8px; font-size: 9px; letter-spacing: 0.18em;
+  }
+  .studio-bar button {
+    background: transparent; color: #B5B5BD; border: 1px solid #25252E;
+    padding: 5px 10px; font-family: inherit; font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; transition: all 0.12s;
+  }
+  .studio-bar button:hover { border-color: #C8FF00; color: #FFFFFF; }
+  .studio-bar button.on {
+    background: #C8FF00; color: #0A0A0E;
+    border-color: #C8FF00; font-weight: 600;
+  }
+  .canvas { padding: 28px; min-height: calc(100vh - 60px); background: #16161C; }`
+
+
+// ─── STUDIO BAR (style/layout switcher in exported one-pager) ───────────────
+
+function renderStudioBar(p: ProFormaProject): string {
+  const styleButtons = THEMES.map(t =>
+    `<button data-style="${t.id}" class="${p.compose.style === t.id ? 'on' : ''}">${t.label}</button>`
+  ).join('')
+  const layoutButtons = LAYOUTS.map(l =>
+    `<button data-layout="${l.id}" class="${p.compose.layout === l.id ? 'on' : ''}">${l.label}</button>`
+  ).join('')
+
+  return `
+    <div class="studio-bar">
+      <div class="grp"><span class="lbl">STYLE</span>${styleButtons}</div>
+      <div class="grp"><span class="lbl">LAYOUT</span>${layoutButtons}</div>
+    </div>`
+}
+
+
+// ─── TOGGLE SCRIPT (shipped with every one-pager) ──────────────────────────
+
+const TOGGLE_SCRIPT = `
+<script>
+  (function(){
+    var body = document.querySelector('.pf-sheet');
+    document.querySelectorAll('[data-style]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        body.className = body.className.replace(/style-\\w+/, 'style-' + btn.dataset.style);
+        document.querySelectorAll('[data-style]').forEach(function(b){ b.classList.toggle('on', b===btn); });
+      });
+    });
+    document.querySelectorAll('[data-layout]').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        body.className = body.className.replace(/layout-\\w+/, 'layout-' + btn.dataset.layout);
+        document.querySelectorAll('[data-layout]').forEach(function(b){ b.classList.toggle('on', b===btn); });
+      });
+    });
+  })();
+<\/script>`
+
+
+// ─── BLOCK RENDERERS ────────────────────────────────────────────────────────
 
 function renderHeader(p: ProFormaProject): string {
   return `
     <div class="c-header">
       <div class="left">
-        <span><span class="a">●</span> ${esc(p.meta.title)}</span>
         <span>${esc(p.meta.product)}</span>
+        <span>${esc(p.meta.context)}</span>
       </div>
       <div class="right">
-        <span>${esc(p.meta.context)}</span>
+        <span class="a">${esc(p.meta.title)}</span>
         <span>${esc(p.meta.date)}</span>
       </div>
     </div>`
 }
 
 function renderHeadline(p: ProFormaProject): string {
+  const headline = p.content.headline.replace(
+    p.content.headlineAccent,
+    `<span class="ac">${esc(p.content.headlineAccent)}</span>`
+  )
   return `
     <div class="c-headline">
-      <h1>${esc(p.content.headline)} <span class="ac">${esc(p.content.headlineAccent)}</span></h1>
-      <div class="deck">${esc(p.content.deck)}</div>
+      <h1>${headline}</h1>
+      <p class="deck">${p.content.deck}</p>
     </div>`
 }
 
@@ -44,20 +149,13 @@ function renderSummaryCards(p: ProFormaProject, c: ComputedOutputs): string {
   const rangeStr = (cons && opt)
     ? `${fmtMoneyS(cons.m24Net)} – ${fmtMoneyS(opt.m24Net)}`
     : fmtMoneyS(c.netM24)
-
-  const values = [
-    fmtMoneyS(c.costAdded24mo),
-    `~${c.capacityFreedFTE.toFixed(1)} FTE`,
-    rangeStr,
-  ]
-
+  const values = [fmtMoneyS(c.costAdded24mo), `~${c.capacityFreedFTE.toFixed(1)} FTE`, rangeStr]
   const cards = p.content.summary.cards.map((card, i) => `
     <div class="card${card.focal ? ' focal' : ''}">
       <div class="lab">${esc(card.label)}</div>
-      <div class="num">${esc(values[i])}</div>
+      <div class="num">${values[i]}</div>
       <div class="sub">${esc(card.subtitle)}</div>
     </div>`).join('')
-
   return `<div class="c-summary">${cards}</div>`
 }
 
@@ -65,10 +163,10 @@ function renderFunnel(p: ProFormaProject, c: ComputedOutputs): string {
   const f   = p.content.funnel
   const acq = p.locked.find(l => l.id === 'acquisitions')?.value ?? 0
   const stages = [
-    { count: fmtCount(acq),           label: f.stageLabels[0] },
-    { count: fmtCount(c.newTrials),   label: f.stageLabels[1] },
-    { count: fmtCount(c.newPaid),     label: f.stageLabels[2] },
-    { count: fmtCount(c.newRenewals), label: f.stageLabels[3] },
+    { count: fmtCount(acq),             label: f.stageLabels[0] },
+    { count: fmtCount(c.newTrials),     label: f.stageLabels[1] },
+    { count: fmtCount(c.newPaid),       label: f.stageLabels[2] },
+    { count: fmtCount(c.newRenewals),   label: f.stageLabels[3] },
   ]
   const rates = [
     `${p.assumptions.trialStart.toFixed(1)}%`,
@@ -77,13 +175,13 @@ function renderFunnel(p: ProFormaProject, c: ComputedOutputs): string {
   ]
 
   const flow = [0, 1, 2].map(i => `
-    <div class="stage"><div class="cnt">${stages[i].count}</div><div class="lab">${stages[i].label}</div></div>
+    <div class="stage"><div class="cnt">${stages[i].count}</div><div class="lab">${esc(stages[i].label)}</div></div>
     <div class="step">
       <div class="rate">${rates[i]}</div>
       <div class="how">${esc(f.stepNotes[i].how)}</div>
       <div class="rc">${esc(f.stepNotes[i].rcNote)}</div>
     </div>`).join('') + `
-    <div class="stage"><div class="cnt">${stages[3].count}</div><div class="lab">${stages[3].label}</div></div>`
+    <div class="stage"><div class="cnt">${stages[3].count}</div><div class="lab">${esc(stages[3].label)}</div></div>`
 
   return `
     <div class="c-funnel">
@@ -228,7 +326,8 @@ function renderFooter(p: ProFormaProject): string {
     </div>`
 }
 
-// ─── BLOCK DISPATCH ─────────────────────────────────────────────────────────
+
+// ─── BLOCK DISPATCH ────────────────────────────────────────────────────────
 
 const RENDERERS: Record<string, (p: ProFormaProject, c: ComputedOutputs) => string> = {
   header:    (p)    => renderHeader(p),
@@ -242,81 +341,18 @@ const RENDERERS: Record<string, (p: ProFormaProject, c: ComputedOutputs) => stri
   footer:    (p)    => renderFooter(p),
 }
 
-// ─── TOGGLE SCRIPT (shipped with every one-pager) ────────────────────────────
 
-const TOGGLE_SCRIPT = `
-<script>
-  (function(){
-    var body = document.querySelector('.pf-sheet');
-    document.querySelectorAll('[data-style]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        body.className = body.className.replace(/style-\\w+/, 'style-' + btn.dataset.style);
-        document.querySelectorAll('[data-style]').forEach(function(b){ b.classList.toggle('on', b===btn); });
-      });
-    });
-    document.querySelectorAll('[data-layout]').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        body.className = body.className.replace(/layout-\\w+/, 'layout-' + btn.dataset.layout);
-        document.querySelectorAll('[data-layout]').forEach(function(b){ b.classList.toggle('on', b===btn); });
-      });
-    });
-  })();
-<\/script>`
-
-// ─── STUDIO BAR (style/layout switcher in exported one-pager) ───────────────
-
-function renderStudioBar(p: ProFormaProject): string {
-  const styleButtons = THEMES.map(t =>
-    `<button data-style="${t.id}" class="${p.compose.style === t.id ? 'on' : ''}">${t.label}</button>`
-  ).join('')
-  const layoutButtons = LAYOUTS.map(l =>
-    `<button data-layout="${l.id}" class="${p.compose.layout === l.id ? 'on' : ''}">${l.label}</button>`
-  ).join('')
-
-  return `
-    <div class="studio-bar">
-      <div class="grp"><span class="lbl">STYLE</span>${styleButtons}</div>
-      <div class="grp"><span class="lbl">LAYOUT</span>${layoutButtons}</div>
-    </div>`
-}
-
-// ─── STUDIO BAR CSS ──────────────────────────────────────────────────────────
-
-const STUDIO_BAR_CSS = `
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: #16161c; }
-  .studio-bar {
-    position: sticky; top: 0; z-index: 100;
-    background: #0a0a0e; border-bottom: 1px solid #25252e;
-    padding: 12px 24px; display: flex; gap: 22px; align-items: center; flex-wrap: wrap;
-    font-family: 'IBM Plex Mono', monospace; color: #B5B5BD; font-size: 11px;
-  }
-  .studio-bar .grp { display: flex; gap: 4px; align-items: center; }
-  .studio-bar .lbl { color: #6D6D78; text-transform: uppercase; margin-right: 8px; font-size: 9px; letter-spacing: 0.18em; }
-  .studio-bar button {
-    background: transparent; color: #B5B5BD; border: 1px solid #25252e;
-    padding: 5px 10px; font-family: inherit; font-size: 10px;
-    letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.12s;
-  }
-  .studio-bar button:hover { border-color: #C8FF00; color: #fff; }
-  .studio-bar button.on { background: #C8FF00; color: #0a0a0e; border-color: #C8FF00; font-weight: 600; }
-  .canvas { padding: 28px; min-height: calc(100vh - 60px); background: #16161c; }`
-
-// ─── MAIN EXPORT ─────────────────────────────────────────────────────────────
+// ─── MAIN EXPORT ───────────────────────────────────────────────────────────
 
 export function generateOnePager(project: ProFormaProject): string {
   const c           = compute(project)
-  const themeClass  = THEMES.find(t => t.id === project.compose.style)?.cssClass   ?? 'style-terminal'
+  const themeClass  = THEMES.find(t => t.id === project.compose.style)?.cssClass   ?? 'style-clean'
   const layoutClass = LAYOUTS.find(l => l.id === project.compose.layout)?.cssClass ?? 'layout-mag'
 
   const blocks = project.compose.blocks
     .filter(id => RENDERERS[id])
     .map(id => RENDERERS[id](project, c))
     .join('\n')
-
-  const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;900&family=Archivo+Narrow:wght@400;500;600;700&family=Big+Shoulders+Display:wght@500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Mono:wght@400;500&family=IBM+Plex+Mono:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">`
 
   return `<!doctype html>
 <html lang="en">
@@ -346,7 +382,8 @@ ${TOGGLE_SCRIPT}
 </html>`
 }
 
-// ─── DOWNLOAD HELPER ────────────────────────────────────────────────────────
+
+// ─── DOWNLOAD HELPER ───────────────────────────────────────────────────────
 
 export function downloadOnePager(project: ProFormaProject) {
   const html     = generateOnePager(project)
@@ -360,7 +397,8 @@ export function downloadOnePager(project: ProFormaProject) {
   URL.revokeObjectURL(a.href)
 }
 
-// ─── UTILITY ────────────────────────────────────────────────────────────────
+
+// ─── UTILITY ───────────────────────────────────────────────────────────────
 
 function esc(s: string): string {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;')

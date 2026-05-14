@@ -1,25 +1,36 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   WORKSHOP · SHELL
+   ═══════════════════════════════════════════════════════════════════════════
+   Top-level layout for the editor (topbar, sidebar, preview canvas).
+   All colors and sizes come from `./workshop/_workshop.css` tokens — never
+   hardcode hex values here. To rebrand the editor, edit tokens, not this file.
+   =========================================================================== */
+
+@import './workshop/_workshop.css';
+
 /* ─── RESET ─── */
 *, *::before, *::after { box-sizing: border-box; }
 html, body, #app { margin: 0; padding: 0; height: 100%; }
 
-/* ─── WORKSHOP SHELL ─── */
+/* ─── SHELL GRID ─── */
 .pf-shell {
   display: grid;
-  grid-template-rows: 48px 1fr;
-  grid-template-columns: 380px 1fr;
+  grid-template-rows: var(--workshop-topbar-h) 1fr;
+  grid-template-columns: var(--workshop-sidebar-w) 1fr;
   grid-template-areas:
     "topbar  topbar"
     "sidebar preview";
   height: 100vh;
-  background: #0a0a0e;
-  color: #B5B5BD;
-  font-family: 'IBM Plex Mono', monospace;
+  background: var(--workshop-bg);
+  color: var(--workshop-fg-2);
+  font-family: var(--workshop-font);
 }
 
+/* ─── TOPBAR ─── */
 .pf-topbar {
   grid-area: topbar;
-  background: #0a0a0e;
-  border-bottom: 1px solid #25252e;
+  background: var(--workshop-bg);
+  border-bottom: 1px solid var(--workshop-rule);
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -27,40 +38,23 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #6D6D78;
+  color: var(--workshop-fg-3);
   z-index: 10;
 }
-
 .pf-topbar .brand {
-  color: #C8FF00;
+  color: var(--workshop-accent);
   font-weight: 600;
   letter-spacing: 0.14em;
   font-size: 12px;
 }
+.pf-topbar .sep { color: var(--workshop-rule); }
 
-.pf-topbar .sep {
-  color: #25252e;
-}
-
-.pf-sidebar {
-  grid-area: sidebar;
-  overflow-y: auto;
-  border-right: 1px solid #25252e;
-  background: #0a0a0e;
-}
-
-.pf-preview {
-  grid-area: preview;
-  overflow-y: auto;
-  background: #16161c;
-  padding: 28px;
-}
-
+/* Topbar action buttons */
 .pf-topbar-btn {
   background: transparent;
-  border: 1px solid #25252e;
-  color: #B5B5BD;
-  font-family: 'IBM Plex Mono', monospace;
+  border: 1px solid var(--workshop-rule);
+  color: var(--workshop-fg-2);
+  font-family: var(--workshop-font);
   font-size: 9.5px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -68,4 +62,30 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
   cursor: pointer;
   transition: all 0.1s;
 }
-.pf-topbar-btn:hover { border-color: #C8FF00; color: #fff; }
+.pf-topbar-btn:hover {
+  border-color: var(--workshop-accent);
+  color: var(--workshop-fg);
+}
+/* Primary action (Export). Single class, no inline style overrides needed. */
+.pf-topbar-btn.primary {
+  border-color: var(--workshop-accent);
+  color: var(--workshop-accent);
+}
+.pf-topbar-btn.primary:hover {
+  background: var(--workshop-accent);
+  color: var(--workshop-accent-fg);
+}
+
+/* ─── SIDEBAR & PREVIEW ─── */
+.pf-sidebar {
+  grid-area: sidebar;
+  overflow-y: auto;
+  border-right: 1px solid var(--workshop-rule);
+  background: var(--workshop-bg);
+}
+.pf-preview {
+  grid-area: preview;
+  overflow-y: auto;
+  background: var(--workshop-bg-canvas);
+  padding: var(--workshop-canvas-pad);
+}

@@ -1,25 +1,50 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · EDITORIAL
+   ═══════════════════════════════════════════════════════════════════════════
+   Origin: existing theme, lightly updated to the new contract.
+   Vibe:   Financial Times. Warm salmon paper, serif display in italic,
+           single crimson accent. The "I'm reading a magazine article" mood.
+   When to use: long-form pro-formas, narrative-heavy decks, anything where
+           the prose deserves the same weight as the numbers.
+   =========================================================================== */
 .style-editorial {
-  --bg:          #FFF1E5;
-  --bg-2:        #FBE7D2;
-  --bg-3:        #F5DDC1;
-  --fg:          #0D0D0D;
-  --fg-2:        #66625A;
-  --fg-3:        #989284;
-  --rule:        #E8DCC4;
-  --rule-2:      #C4B89F;
-  --accent:      #C8141A;
-  --accent-dim:  #8B0E12;
-  --warn:        #66625A;
+  /* COLOR · SURFACE */
+  --bg:    #FAF5E8;
+  --bg-2:  #F2EBD4;
+  --bg-3:  #EAE0BE;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #161512;
+  --fg-2:  #5A5648;
+  --fg-3:  #8E8870;
+
+  /* COLOR · RULES */
+  --rule:        #DDD3B5;
+  --rule-2:      #B8AC85;
+  --rule-width:  0.5px;        /* hairlines — feels printed */
+
+  /* COLOR · ACCENT */
+  --accent:      #B43000;       /* crimson */
+  --accent-dim:  #7E2200;
+
+  /* COLOR · STATE */
+  --warn:        #B43000;
   --positive:    #2D6A4F;
 
-  --display-font:    'Newsreader', Georgia, serif;
-  --body-font:       'Hanken Grotesk', sans-serif;
-  --mono-font:       'JetBrains Mono', monospace;
-  --display-weight:  300;
-  --display-italic:  italic;
-  --display-tracking: -0.025em;
+  /* TYPOGRAPHY — serif display in italic is the signature */
+  --display-font:  'Cormorant Garamond', 'Newsreader', Georgia, serif;
+  --body-font:     'Source Serif 4', Georgia, serif;
+  --mono-font:     'JetBrains Mono', ui-monospace, monospace;
+  --display-weight:    500;
+  --display-italic:    italic;
+  --display-tracking:  -0.025em;
+  --display-transform: none;
 
-  --rule-width: 0.5px;
-  --pad:        26px;
-  --gap:        18px;
+  /* SPACING — slightly more generous than clean */
+  --pad:  26px;
+  --gap:  18px;
+
+  /* RADIUS — none. Magazine corners are sharp. */
+  --radius:    0;
+  --radius-sm: 0;
 }

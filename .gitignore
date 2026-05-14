@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.DS_Store
+.serena/
+context.txt
+
+# Theme refactor working artifacts
+theme-refactor-full/
+theme-refactor-full.zip
+theme-refactor-stage-1-2/
+theme-refactor-stage-1-2.zip

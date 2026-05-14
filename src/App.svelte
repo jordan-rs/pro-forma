@@ -38,11 +38,11 @@
     <span class="brand">ProForma</span>
     <span class="sep">|</span>
     <span>Workshop</span>
-    <div style="margin-left:auto; display:flex; gap:8px;">
+    <div class="pf-topbar-actions">
       <button class="pf-topbar-btn" onclick={loadJSON}>Import</button>
       <button class="pf-topbar-btn" onclick={downloadJSON}>Save JSON</button>
       <button class="pf-topbar-btn" onclick={resetToTemplate}>Reset</button>
-      <button class="pf-topbar-btn" style="border-color:#C8FF00; color:#C8FF00;" onclick={() => downloadOnePager($project)}>Export One-Pager ↓</button>
+      <button class="pf-topbar-btn primary" onclick={() => downloadOnePager($project)}>Export One-Pager ↓</button>
     </div>
   </header>
 
@@ -59,3 +59,12 @@
     <Preview />
   </main>
 </div>
+
+<style>
+  /* Layout-only style local to this component. Colors stay in app.css. */
+  .pf-topbar-actions {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+</style>

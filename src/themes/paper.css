@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · PAPER
+   ═══════════════════════════════════════════════════════════════════════════
+   Source: Styles/paper.md
+   Vibe:   Ink on cotton paper. Pure black-and-white, Montserrat display,
+           Roboto body. No accent color whatsoever — black IS the accent.
+           The most restrained theme in the system.
+   When to use: technical reports, post-mortems, anything where chromatic
+           neutrality is the point. Prints beautifully.
+   =========================================================================== */
+.style-paper {
+  /* COLOR · SURFACE */
+  --bg:    #FFFFFF;
+  --bg-2:  #FAFAFA;
+  --bg-3:  #F0F0F0;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #111111;
+  --fg-2:  #4A4A4A;
+  --fg-3:  #8A8A8A;
+
+  /* COLOR · RULES — heavier than clean, leaning typographic */
+  --rule:        rgba(0, 0, 0, 0.12);
+  --rule-2:      rgba(0, 0, 0, 0.28);
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT — black, not a color. Use sparingly. */
+  --accent:      #111111;
+  --accent-dim:  #444444;
+
+  /* COLOR · STATE */
+  --warn:        #DC2626;
+  --positive:    #16A34A;
+
+  /* TYPOGRAPHY — Montserrat display is the signature */
+  --display-font:  'Montserrat', 'Helvetica Neue', sans-serif;
+  --body-font:     'Roboto', system-ui, sans-serif;
+  --mono-font:     'PT Mono', ui-monospace, monospace;
+  --display-weight:    700;
+  --display-italic:    normal;
+  --display-tracking:  -0.01em;
+  --display-transform: none;
+
+  /* SPACING */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* RADIUS — none */
+  --radius:    0;
+  --radius-sm: 0;
+}

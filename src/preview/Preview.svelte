@@ -10,7 +10,7 @@
   import '../blocks/blocks.css'
 
   // Resolve the active theme/layout CSS classes from the registry
-  const themeClass  = $derived(THEMES.find(t => t.id === $project.compose.style)?.cssClass   ?? 'style-terminal')
+  const themeClass  = $derived(THEMES.find(t => t.id === $project.compose.style)?.cssClass   ?? 'style-clean')
   const layoutClass = $derived(LAYOUTS.find(l => l.id === $project.compose.layout)?.cssClass ?? 'layout-mag')
 
   // Only render blocks that are in compose.blocks

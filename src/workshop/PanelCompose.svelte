@@ -31,6 +31,7 @@
       {#each THEMES as theme}
         <button
           class:active={$project.compose.style === theme.id}
+          title={theme.description}
           onclick={() => setStyle(theme.id)}
         >{theme.label}</button>
       {/each}
@@ -55,7 +56,7 @@
     {#each BLOCKS as block}
       <div class="pf-block-toggle">
         <span class="name" class:required={block.required}>
-          {block.label}{#if block.required}&nbsp;<span style="color:#3A3A44">locked</span>{/if}
+          {block.label}{#if block.required}&nbsp;<span class="locked-tag">locked</span>{/if}
         </span>
         <label class="pf-toggle">
           <input

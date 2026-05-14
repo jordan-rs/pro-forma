@@ -1,0 +1,52 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · BENTO
+   ═══════════════════════════════════════════════════════════════════════════
+   Source: Styles/bento.md
+   Vibe:   Modular card grid, warm peach paper, soft blue accent. The only
+           "warm" theme in the system. Components feel like discrete
+           tiles — uses generous radius and a peach surface for the
+           "bento box" effect.
+   When to use: internal pitches, team retros, anything where you want
+           friendly + organized without being playful or unserious.
+   =========================================================================== */
+.style-bento {
+  /* COLOR · SURFACE — warm peach paper */
+  --bg:    #FFF5E6;
+  --bg-2:  #FFEED6;       /* the card surface — the bento "tile" */
+  --bg-3:  #FFE2BC;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #111827;
+  --fg-2:  #4B5563;
+  --fg-3:  #9A8E7A;       /* warm-tinted tertiary, against the peach bg */
+
+  /* COLOR · RULES — softer than clean, complements the warm bg */
+  --rule:        rgba(17, 24, 39, 0.08);
+  --rule-2:      rgba(17, 24, 39, 0.18);
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT — soft blue (peach + blue is the bento palette) */
+  --accent:      #80A1C1;
+  --accent-dim:  #5B7D9F;
+
+  /* COLOR · STATE */
+  --warn:        #DC2626;
+  --positive:    #16A34A;
+
+  /* TYPOGRAPHY — Inter, the bento system primary */
+  --display-font:  'Inter', system-ui, sans-serif;
+  --body-font:     'Inter', system-ui, sans-serif;
+  --mono-font:     'JetBrains Mono', ui-monospace, monospace;
+  --display-weight:    700;
+  --display-italic:    normal;
+  --display-tracking:  -0.02em;
+  --display-transform: none;
+
+  /* SPACING — generous to match the "tile" feel */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* RADIUS — soft, the bento signature */
+  --radius:    12px;
+  --radius-sm: 6px;
+}

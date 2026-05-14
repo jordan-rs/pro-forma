@@ -1,0 +1,605 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE COMPONENT STYLES
+   ═══════════════════════════════════════════════════════════════════════════
+   This file styles every block component using ONLY tokens from
+   `_contract.css`. Themes change appearance by overriding tokens — they
+   should not need to add selectors here.
+
+   ───────────────────────────────────────────────────────────────────────────
+   FOR LLMs EDITING THIS PROJECT
+   ───────────────────────────────────────────────────────────────────────────
+   If a theme needs to change a value here, that's a sign the contract is
+   missing a token. PREFER adding a token to `_contract.css` over adding a
+   selector to a theme file.
+
+   The only acceptable per-theme overrides are documented at the bottom of
+   this file under "ACCEPTED OVERRIDES" — currently: brutalist (gap=0).
+
+   ───────────────────────────────────────────────────────────────────────────
+   FILE MAP — search for `═══ NAME ═══` to jump to a section:
+     SHEET ROOT
+     HEADER
+     HEADLINE
+     SUMMARY CARDS
+     FUNNEL
+     CHART
+     SCENARIOS
+     POSITION
+     EXECUTION
+     FOOTER
+     PRINT
+     ACCEPTED OVERRIDES
+   =========================================================================== */
+
+
+/* ═══ SHEET ROOT ═══ */
+.pf-sheet {
+  max-width: 1120px;
+  margin: 0 auto;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--body-font);
+  transition: background 0.2s ease;
+}
+.pf-sheet * { font-family: inherit; }
+
+
+/* ═══ HEADER ═══ */
+.c-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 0 10px;
+  border-bottom: var(--rule-width) solid var(--rule-2);
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.c-header .left,
+.c-header .right { display: flex; gap: 18px; }
+.c-header .a { color: var(--accent); }
+
+
+/* ═══ HEADLINE ═══ */
+.c-headline h1 {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+  font-variation-settings: 'opsz' var(--display-opsz);
+  color: var(--fg);
+  margin: 0 0 14px;
+  line-height: 1.0;
+  font-size: 56px;
+}
+.c-headline h1 .ac { color: var(--accent); }
+.c-headline .deck {
+  font-family: var(--body-font);
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--fg-2);
+  max-width: 720px;
+}
+
+
+/* ═══ SUMMARY CARDS ═══ */
+.c-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--gap);
+}
+.c-summary .card {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+}
+.c-summary .card.focal {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+.c-summary .card .lab {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 14px;
+}
+.c-summary .card.focal .lab { color: var(--bg); opacity: 0.75; }
+.c-summary .card .num {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  letter-spacing: var(--display-tracking);
+  text-transform: var(--display-transform);
+  font-size: 40px;
+  line-height: 1.0;
+  color: var(--fg);
+  margin-bottom: 12px;
+}
+.c-summary .card.focal .num { color: var(--bg); }
+.c-summary .card .sub {
+  font-family: var(--body-font);
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--fg-2);
+  margin-top: auto;
+}
+.c-summary .card.focal .sub { color: var(--bg); opacity: 0.85; }
+
+
+/* ═══ FUNNEL ═══ */
+.c-funnel {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: 18px var(--pad);
+}
+.c-funnel .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: var(--rule-width) dashed var(--rule-2);
+}
+.c-funnel .head .t {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  text-transform: var(--display-transform);
+  font-size: 16px;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+.c-funnel .head .t .a { color: var(--accent); }
+.c-funnel .head .meta {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.c-funnel .flow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  gap: 8px;
+  align-items: stretch;
+}
+.c-funnel .stage {
+  text-align: center;
+  padding: 14px 10px;
+  border: var(--rule-width) solid var(--rule-2);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.c-funnel .stage .cnt {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  font-size: 30px;
+  line-height: 1;
+  color: var(--fg);
+  margin-bottom: 4px;
+}
+.c-funnel .stage .lab {
+  font-family: var(--mono-font);
+  font-size: 9px;
+  color: var(--fg-2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+.c-funnel .step {
+  padding: 8px 6px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 110px;
+}
+.c-funnel .step .rate {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  font-size: 18px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.01em;
+}
+.c-funnel .step .how {
+  font-family: var(--mono-font);
+  font-size: 9px;
+  color: var(--fg-3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+.c-funnel .step .rc {
+  font-family: var(--body-font);
+  font-size: 10px;
+  color: var(--fg-2);
+  font-style: italic;
+  margin-top: 4px;
+  line-height: 1.35;
+}
+
+
+/* ═══ CHART ═══════════════════════════════════════════════════════════════
+   Chart container styling. The SVG internals are in the `.pnl .*` block
+   below — those are the lines, grid, dots, and labels.
+
+   THEMING STATUS: Path A (color-only). The chart picks up `--accent`,
+   `--fg-*`, and `--rule-*` from the active theme but its stroke widths,
+   dash patterns, and dot shapes are FIXED here. To make those theme-
+   variable, see "CHART AUTHORING · PATH B" in `_contract.css`.
+
+   FOR LLMs UPGRADING THIS: do NOT add `.style-* .pnl ...` selectors here.
+   Add chart tokens to the contract, then reference them below as var().
+   ─────────────────────────────────────────────────────────────────────── */
+.c-chart {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: 14px 18px 16px;
+  display: flex;
+  flex-direction: column;
+}
+.c-chart .head {
+  padding-bottom: 14px;
+  margin-bottom: 6px;
+  border-bottom: var(--rule-width) dashed var(--rule-2);
+}
+.c-chart .head .t {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  text-transform: var(--display-transform);
+  font-size: 18px;
+  letter-spacing: -0.01em;
+  color: var(--fg);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.c-chart .head .t .a { color: var(--accent); }
+.c-chart .head .conclusion {
+  font-family: var(--body-font);
+  font-size: 12px;
+  color: var(--fg);
+  line-height: 1.45;
+}
+.c-chart .head .conclusion .em { color: var(--accent); font-weight: 600; }
+
+/* SVG chart internals — Path A: tokenized colors, hardcoded shape.
+   Each hardcoded value below is annotated with its Path B token name so
+   the migration is mechanical when the contract is extended. */
+.pnl { display: block; width: 100%; height: auto; flex: 1; }
+.pnl .grid-h    { stroke: var(--rule); stroke-width: 0.5; stroke-dasharray: 2 4; }
+                  /* width → --chart-grid-width · dasharray → --chart-grid-style */
+.pnl .zero      { stroke: var(--fg-3); stroke-width: 1; opacity: 0.6; }
+                  /* opacity → --chart-grid-opacity (or --chart-axis-opacity) */
+.pnl .ax-text   { font-family: var(--mono-font); font-size: 10px; fill: var(--fg-2); letter-spacing: 0.04em; }
+.pnl .ax-zero   { font-family: var(--mono-font); font-size: 10px; fill: var(--fg); font-weight: 600; }
+.pnl .range     { fill: var(--accent); opacity: 0.10; }
+                  /* opacity → --chart-band-opacity */
+.pnl .l-mid     { stroke: var(--accent); stroke-width: 2.6; fill: none; }
+                  /* stroke-width → --chart-line-width · ALSO add stroke-linecap → --chart-line-cap */
+.pnl .l-cons    { stroke: var(--accent); stroke-width: 1; fill: none; opacity: 0.35; stroke-dasharray: 3 3; }
+.pnl .l-opt     { stroke: var(--accent); stroke-width: 1; fill: none; opacity: 0.35; stroke-dasharray: 3 3; }
+                  /* dasharray → --chart-secondary-style (resolve via Path B mapping) */
+.pnl .be        { fill: var(--accent); }
+                  /* shape currently hardcoded as <circle> in SVG → --chart-dot-shape · size → --chart-dot-size */
+.pnl .be-text   { font-family: var(--mono-font); font-size: 10px; fill: var(--accent); font-weight: 600; letter-spacing: 0.08em; }
+.pnl .lbl-mid   { font-family: var(--mono-font); font-size: 11.5px; fill: var(--accent); font-weight: 600; }
+.pnl .lbl-edge  { font-family: var(--mono-font); font-size: 10px; fill: var(--accent); opacity: 0.6; font-weight: 500; }
+.pnl .lbl-name  { font-family: var(--mono-font); font-size: 9px; fill: var(--fg-3); letter-spacing: 0.14em; }
+
+
+/* ═══ SCENARIOS ═══ */
+.c-scenarios {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.c-scenarios .head {
+  padding: 14px var(--pad) 12px;
+  border-bottom: var(--rule-width) solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.c-scenarios .head .t {
+  font-family: var(--display-font);
+  font-style: var(--display-italic);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-transform);
+  font-size: 15px;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+.c-scenarios .head .t .a { color: var(--accent); }
+.c-scenarios .head .meta {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.c-scenarios .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+.c-scenarios .sc {
+  padding: 16px 16px 18px;
+  border-right: var(--rule-width) solid var(--rule);
+}
+.c-scenarios .sc:last-child { border-right: none; }
+.c-scenarios .sc .name {
+  font-family: var(--display-font);
+  font-style: var(--display-italic);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-transform);
+  font-size: 14px;
+  color: var(--fg);
+  margin-bottom: 14px;
+}
+.c-scenarios .sc .pb-l {
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 1px;
+}
+.c-scenarios .sc .pb {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  font-size: 28px;
+  line-height: 1;
+  letter-spacing: var(--display-tracking);
+  margin-bottom: 10px;
+}
+.c-scenarios .sc .m24-l {
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+  margin-bottom: 1px;
+}
+.c-scenarios .sc .m24 {
+  font-family: var(--mono-font);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.c-scenarios .sc .lev {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  color: var(--fg-3);
+  letter-spacing: 0.04em;
+}
+.sc-cons .pb, .sc-cons .m24 { color: var(--accent-dim); }
+.sc-mid  .pb, .sc-mid  .m24 { color: var(--accent); }
+.sc-opt  .pb, .sc-opt  .m24 { color: var(--accent); }
+
+
+/* ═══ POSITION ═══ */
+.c-position {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--pad);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.c-position .label {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.c-position .big {
+  font-family: var(--display-font);
+  font-weight: var(--display-weight);
+  font-style: var(--display-italic);
+  text-transform: var(--display-transform);
+  letter-spacing: var(--display-tracking);
+  font-size: 56px;
+  line-height: 0.95;
+  color: var(--warn);
+  margin: 2px 0;
+}
+.c-position .sub {
+  font-family: var(--body-font);
+  font-size: 12px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+.c-position .sub .v { color: var(--fg); font-weight: 500; }
+.c-position .sub .n { font-family: var(--mono-font); font-weight: 500; color: var(--fg); }
+.c-position .buys {
+  margin-top: 4px;
+  padding-top: 12px;
+  border-top: var(--rule-width) dashed var(--rule-2);
+}
+.c-position .buys .label { margin-bottom: 8px; }
+.c-position .buys ul {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.c-position .buys li {
+  font-family: var(--body-font);
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  border-bottom: var(--rule-width) dashed var(--rule);
+}
+.c-position .buys li:last-child { border-bottom: none; }
+.c-position .buys li .tag {
+  font-family: var(--mono-font);
+  color: var(--fg-3);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+}
+.c-position .buys .plus { color: var(--positive); font-weight: 600; margin-right: 6px; }
+.c-position .buys .x    { color: var(--warn);     font-weight: 600; margin-right: 6px; }
+
+/* Position re-layout in magazine: side-by-side lead + buys */
+.layout-mag .c-position {
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 1.4fr;
+  gap: 28px;
+  align-items: stretch;
+}
+.layout-mag .c-position .lead { display: flex; flex-direction: column; gap: 10px; }
+.layout-mag .c-position .buys {
+  margin-top: 0;
+  padding-top: 0;
+  padding-left: 28px;
+  border-top: none;
+  border-left: var(--rule-width) dashed var(--rule-2);
+}
+
+/* Scenarios collapse to column in side-by-side layouts */
+.layout-mag .c-scenarios .grid-3,
+.layout-brief .c-scenarios .grid-3 {
+  grid-template-columns: 1fr; flex: 1;
+  display: flex; flex-direction: column;
+}
+.layout-mag .c-scenarios .sc,
+.layout-brief .c-scenarios .sc {
+  flex: 1;
+  border-right: none;
+  border-bottom: var(--rule-width) solid var(--rule);
+  display: flex; flex-direction: column; justify-content: center;
+}
+.layout-mag .c-scenarios .sc:last-child,
+.layout-brief .c-scenarios .sc:last-child { border-bottom: none; }
+.layout-mag .c-scenarios .sc .pb,
+.layout-brief .c-scenarios .sc .pb { font-size: 32px; margin-bottom: 8px; }
+.layout-mag .c-scenarios .sc .m24,
+.layout-brief .c-scenarios .sc .m24 { font-size: 16px; margin-bottom: 8px; }
+
+
+/* ═══ EXECUTION ═══ */
+.c-execution {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  padding: var(--pad);
+}
+.c-execution .head {
+  margin-bottom: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+.c-execution .head .t {
+  font-family: var(--display-font);
+  font-style: var(--display-italic);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-transform);
+  font-size: 15px;
+  color: var(--fg);
+  letter-spacing: -0.005em;
+}
+.c-execution .head .meta {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+.c-execution .phases {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.c-execution .ph {
+  padding: 10px 12px;
+  border-left: 3px solid var(--accent);
+  background: var(--bg-3);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+.c-execution .ph .lab {
+  font-family: var(--mono-font);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+.c-execution .ph .lab .w { color: var(--fg-3); font-weight: 400; }
+.c-execution .ph .nm {
+  font-family: var(--display-font);
+  font-style: var(--display-italic);
+  font-weight: var(--display-weight);
+  text-transform: var(--display-transform);
+  font-size: 14px;
+  color: var(--fg);
+  margin-bottom: 5px;
+}
+.c-execution .ph .bd {
+  font-family: var(--body-font);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+.c-execution .ph .bd .v { color: var(--fg); font-weight: 500; }
+.c-execution .ph .bd .a { color: var(--accent); font-weight: 500; }
+
+
+/* ═══ FOOTER ═══ */
+.c-footer {
+  padding-top: 12px;
+  border-top: var(--rule-width) solid var(--rule-2);
+  font-family: var(--mono-font);
+  font-size: 10px;
+  line-height: 1.65;
+  color: var(--fg-2);
+  letter-spacing: 0.02em;
+}
+.c-footer .tag {
+  color: var(--accent);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 9px;
+  margin-right: 8px;
+}
+
+
+/* ═══ PRINT ═══ */
+@media print {
+  .pf-sheet { max-width: 100%; }
+  @page { size: letter landscape; margin: 0.4in; }
+}
+
+
+/* ═══ ACCEPTED OVERRIDES ═══════════════════════════════════════════════════
+   Per-theme exceptions that cannot be expressed by tokens alone.
+   New entries here REQUIRE justification — they're a contract violation.
+   Currently empty. The brutalist gap=0 collapse is now expressed by setting
+   `--gap: 0` and `--radius: 0` in `brutalist.css`, no selectors needed.
+   ─────────────────────────────────────────────────────────────────────── */

@@ -1,0 +1,235 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME TOKEN CONTRACT
+   ═══════════════════════════════════════════════════════════════════════════
+   This file defines THE COMPLETE LIST of CSS custom properties every theme
+   must provide. It is the source of truth.
+
+   ───────────────────────────────────────────────────────────────────────────
+   FOR LLMs EDITING THIS PROJECT — READ THIS FIRST
+   ───────────────────────────────────────────────────────────────────────────
+   To add a new theme:
+     1. Copy any existing file in this folder (e.g. `clean.css`) to
+        `<your-theme-name>.css`.
+     2. Change the wrapping class (e.g. `.style-clean` → `.style-yourname`).
+     3. Override the tokens below. EVERY token listed in this file must be
+        set — if you skip one, the base layer falls back to the value here
+        and your theme will be inconsistent.
+     4. Add an `@import` line to `index.css`.
+     5. Add a registry entry to `../themes/registry.ts` with a matching
+        `cssClass`.
+
+   To remove a theme:
+     1. Delete the file and its `@import` line in `index.css`.
+     2. Remove its registry entry.
+     3. If `defaultThemeId` in registry.ts referenced it, change it.
+
+   To edit a theme:
+     1. Only change values in the theme file (`*.css` next to this one).
+     2. Do NOT add new selectors inside theme files. If a behavior cannot be
+        expressed by overriding a token listed below, the contract is wrong
+        — extend the contract here, document it, and update `_base.css`.
+
+   ───────────────────────────────────────────────────────────────────────────
+   THE CONTRACT
+   ───────────────────────────────────────────────────────────────────────────
+   Tokens are grouped: COLOR, TYPOGRAPHY, SPACING, RULES, BEHAVIOR.
+   The `:root` block below provides safe defaults so the app never breaks
+   when a theme forgets a token. Themes override per-class (`.style-*`).
+   =========================================================================== */
+
+:root {
+
+  /* ─── COLOR · SURFACE ────────────────────────────────────────────────────
+     Background layers, low to high. Used on the sheet root and component
+     surfaces (cards, panels, chart backdrop). All three must be set —
+     `--bg-2` should sit visually between `--bg` and `--bg-3`.            */
+  --bg:    #FFFFFF;   /* sheet root background                                */
+  --bg-2:  #F9FAFB;   /* component surface (cards, panels)                    */
+  --bg-3:  #F3F4F6;   /* nested surface (chart backdrop, etc.)                */
+
+  /* ─── COLOR · FOREGROUND ─────────────────────────────────────────────────
+     Text and ink, primary to tertiary. Contrast against `--bg` must meet
+     WCAG AA: `--fg` ≥ 7:1, `--fg-2` ≥ 4.5:1, `--fg-3` ≥ 3:1 (large text). */
+  --fg:    #111827;   /* primary text — headings, key numbers                 */
+  --fg-2:  #4B5563;   /* secondary text — body, descriptions                  */
+  --fg-3:  #9CA3AF;   /* tertiary text — labels, metadata, dimmed             */
+
+  /* ─── COLOR · RULES ──────────────────────────────────────────────────────
+     Hairlines and borders. `--rule` is subtle, `--rule-2` is emphatic.    */
+  --rule:        rgba(17, 24, 39, 0.10);
+  --rule-2:      rgba(17, 24, 39, 0.18);
+  --rule-width:  1px;           /* themes can go to 0.5px (editorial) or 3px (brutalist) */
+
+  /* ─── COLOR · ACCENT ─────────────────────────────────────────────────────
+     The single brand color. Used for the accent word in headlines, focal
+     scenario card, chart highlight, button outlines. `--accent-dim` is
+     used for the "conservative" scenario and other muted accent uses.    */
+  --accent:      #3B82F6;
+  --accent-dim:  #1D4ED8;
+
+  /* ─── COLOR · STATE ──────────────────────────────────────────────────────
+     Semantic colors for warnings/positives. NOT brand — these stay
+     consistent across themes for clarity. Themes MAY override (e.g. dark
+     themes need lighter greens) but should preserve semantic meaning.    */
+  --warn:      #DC2626;
+  --positive:  #16A34A;
+
+  /* ─── TYPOGRAPHY · FAMILIES ─────────────────────────────────────────────
+     Three-font system. Display = headlines + big numbers. Body = prose.
+     Mono = labels, metadata, code-like elements. Fonts must be loaded by
+     the host page (see workshop HTML <head> and export FONTS const).     */
+  --display-font:  'Poppins', system-ui, sans-serif;
+  --body-font:     'Roboto', system-ui, sans-serif;
+  --mono-font:     'Inconsolata', ui-monospace, monospace;
+
+  /* ─── TYPOGRAPHY · DISPLAY MODIFIERS ────────────────────────────────────
+     These let a theme override the *behavior* of display text without
+     introducing new selectors. Critical for theme variety:
+       --display-weight    : 100–900
+       --display-italic    : normal | italic
+       --display-tracking  : letter-spacing (e.g. -0.025em)
+       --display-transform : none | uppercase   (modernist/brutalist use uppercase)
+       --display-opsz      : variable-font optical size (Fraunces, Source Serif…) */
+  --display-weight:    600;
+  --display-italic:    normal;
+  --display-tracking:  -0.02em;
+  --display-transform: none;
+  --display-opsz:      48;
+
+  /* ─── SPACING ───────────────────────────────────────────────────────────
+     `--pad` is the inner padding of components (cards, panels). `--gap`
+     is the space between components in a layout. Themes can collapse
+     gap to 0 (brutalist) or expand it for breathing room.                */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* ─── RADIUS ────────────────────────────────────────────────────────────
+     Corner rounding. Themes targeting a sharper aesthetic set this to 0. */
+  --radius:    8px;
+  --radius-sm: 4px;
+
+  /* ─── CHART · COLOR (current behavior, v1) ──────────────────────────────
+     Charts today consume the GENERAL color tokens above. The chart SVG
+     uses `--accent` for lines/range/breakeven, `--fg-3` for grid/zero-axis,
+     and `--fg-2`/`--fg-3` for axis labels. No chart-specific tokens are
+     required — themes get color-themed charts for free.
+
+     If a theme genuinely needs a different chart hue than its `--accent`
+     (rare), it can set --chart-line below. Otherwise leave commented.   */
+  /* --chart-line: var(--accent); */
+
+  /* ─── CHART · RESERVED FOR FUTURE EXPANSION ─────────────────────────────
+     These tokens are NOT YET CONSUMED by `_base.css`. They are documented
+     here so future theme authors (and LLMs) know the upgrade path without
+     re-litigating the design. See "CHART AUTHORING" section below for the
+     full rationale and migration plan.
+
+     Uncomment a block here ONLY when you also update `_base.css` to read
+     the token — leaving tokens defined-but-unused inflates the contract
+     surface without benefit.                                            */
+
+  /* --- Path B: chart "personality" tokens (RECOMMENDED upgrade path) ---
+     Lets each theme set the FEEL of the chart, not just colors.
+     Brutalist gets thick stepped lines + square dots + black grid.
+     Editorial gets thin smooth lines + dashed grid + small italic labels.
+
+     --chart-line-width:      2.6px;
+     --chart-line-cap:        round;     -- round | square | butt
+     --chart-band-opacity:    0.10;      -- confidence range fill
+     --chart-grid-style:      dashed;    -- dashed | solid | dotted | none
+     --chart-grid-opacity:    0.5;
+     --chart-dot-shape:       circle;    -- circle | square | diamond
+     --chart-dot-size:        4px;
+     --chart-secondary-style: dashed;    -- the cons/opt lines style       */
+
+  /* --- Path B (continued): future-proof for new chart types ------------
+     When a non-line chart type is added, extend the namespace cleanly:
+
+     --chart-bar-width:       12px;
+     --chart-bar-radius:      0px;
+     --chart-bar-gap:         4px;
+     --chart-area-gradient:   linear-gradient(...);  -- or solid fill
+     --chart-scatter-size:    6px;
+     --chart-scatter-stroke:  1px;
+     --chart-axis-tick-style: solid;     -- solid | dashed | none
+
+     Naming convention: --chart-<element>-<property>. Keep generic across
+     chart types where it makes sense (e.g. --chart-band-opacity applies
+     to line confidence bands AND area chart fills).                    */
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CHART AUTHORING — three strategies for charts under this theme system
+   ═══════════════════════════════════════════════════════════════════════════
+   The chart is the only component where "tokens swap colors" doesn't fully
+   express each theme's personality. A line chart in red is still a line
+   chart. There are three known paths forward; pick when the cost is
+   justified. Document below applies to every chart type, not just P&L.
+
+   ───────────────────────────────────────────────────────────────────────────
+   PATH A · COLOR-ONLY  (current, shipped state)
+   ───────────────────────────────────────────────────────────────────────────
+   Chart SVG references `var(--accent)`, `var(--fg-3)`, etc. directly.
+   Themes change the chart palette but not its shape, weight, or texture.
+
+   Cost:        Zero — already implemented.
+   Trade-off:   Brutalist line chart is "red and tidy" rather than
+                "thick and chunky."
+   When OK:     Charts are a supporting element, not the doc's hero.
+
+   ───────────────────────────────────────────────────────────────────────────
+   PATH B · CHART PERSONALITY TOKENS  (recommended upgrade)
+   ───────────────────────────────────────────────────────────────────────────
+   Add 8 tokens above (see "CHART · RESERVED FOR FUTURE EXPANSION") and
+   route the chart SVG through them. Themes opt into shape/weight/texture
+   variations without changing the renderer.
+
+   Cost:        ~6-8 new tokens, ~3 lines added per theme file, ~30 lines
+                in the chart SVG renderer (Chart.svelte + _base.css .pnl).
+   Trade-off:   Charts gain real personality. Maintenance stays in one
+                place. Token count grows but stays under control.
+   When to do:  Charts are visible in every doc AND themes feel
+                under-differentiated when previewed side-by-side.
+
+   IMPLEMENTATION STEPS when ready:
+     1. Uncomment the Path B token block in :root above.
+     2. In `_base.css`, replace hardcoded stroke-width/dasharray/etc. in
+        the `.pnl .*` rules with `var(--chart-*)` references.
+     3. Add Path B token values to EVERY theme file. Suggested starting
+        points (tune in preview):
+          clean:         line-width 2.4, dot circle 4, grid dashed
+          editorial:     line-width 1.8, dot circle 3, grid solid 0.3 op
+          terminal:      line-width 2.0, dot square 5, grid dashed
+          modern:        line-width 2.6, dot circle 4, grid dashed
+          institutional: line-width 1.8, dot diamond 4, grid solid
+          paper:         line-width 2.4, dot circle 3, grid solid
+          brutalist:     line-width 4.5, dot square 6, grid solid 1.0 op,
+                         line-cap square, secondary-style thin-solid
+          bento:         line-width 2.4, dot circle 5, grid dashed
+     4. Update `themes_preview.html` to include a chart in each theme block.
+     5. Update `THEME_AUTHORING.md` "Adding a new theme" checklist.
+
+   ───────────────────────────────────────────────────────────────────────────
+   PATH C · PER-THEME CHART COMPONENTS  (only if absolutely needed)
+   ───────────────────────────────────────────────────────────────────────────
+   Each theme gets its own `ChartBrutalist.svelte`, `ChartEditorial.svelte`,
+   etc. Maximum visual range. The chart renderer is selected by theme id.
+
+   Cost:        N components per chart type. Data-shape changes touch
+                every component. Adding a theme means adding a chart.
+   Trade-off:   Maximum freedom, maximum maintenance burden.
+   When to do:  Charts ARE the product (a charting tool, a dashboard
+                builder). Almost never for a doc generator like this one.
+
+   If you go this route: keep Path A or B tokens too, so theme authors
+   who DON'T want a bespoke chart can fall back to the default renderer.
+   =========================================================================== */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   END OF CONTRACT
+   Below: only documentation. No styles.
+
+   IF YOU ADD A TOKEN: also document it above, and update `_base.css` and
+   `THEME_AUTHORING.md` to mention it.
+   IF YOU REMOVE A TOKEN: grep the repo for `var(--token-name)` first.
+   =========================================================================== */

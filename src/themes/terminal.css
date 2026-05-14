@@ -1,25 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · TERMINAL
+   ═══════════════════════════════════════════════════════════════════════════
+   Origin: existing theme, lightly updated to the new contract.
+   Vibe:   Bloomberg terminal × Vercel dashboard. Near-black surface,
+           chartreuse accent that pops without screaming, mono body.
+           The only dark theme in the system.
+   When to use: technical audiences, dashboards, anything where "dense and
+           sharp" matters more than "warm and readable."
+   =========================================================================== */
 .style-terminal {
-  --bg:          #08080B;
-  --bg-2:        #0E0E13;
-  --bg-3:        #15151B;
-  --fg:          #E8E1CC;
-  --fg-2:        #A8A091;
-  --fg-3:        #5C564B;
+  /* COLOR · SURFACE — dark stack */
+  --bg:    #08080B;
+  --bg-2:  #0E0E13;
+  --bg-3:  #15151B;
+
+  /* COLOR · FOREGROUND — warm bone whites for legibility */
+  --fg:    #E8E1CC;
+  --fg-2:  #A8A091;
+  --fg-3:  #5C564B;
+
+  /* COLOR · RULES */
   --rule:        #1E1E26;
   --rule-2:      #2C2C36;
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT — chartreuse. Loud on dark, never on light. */
   --accent:      #C8FF00;
   --accent-dim:  #7A9A00;
+
+  /* COLOR · STATE — dark-mode safe */
   --warn:        #FF6B35;
-  --positive:    #C8FF00;
+  --positive:    #C8FF00;       /* accent doubles as positive in this theme */
 
-  --display-font:    'Bricolage Grotesque', sans-serif;
-  --body-font:       'IBM Plex Mono', monospace;
-  --mono-font:       'IBM Plex Mono', monospace;
-  --display-weight:  400;
-  --display-italic:  normal;
-  --display-tracking: -0.03em;
+  /* TYPOGRAPHY — mono body is the signature */
+  --display-font:  'Bricolage Grotesque', system-ui, sans-serif;
+  --body-font:     'IBM Plex Mono', ui-monospace, monospace;
+  --mono-font:     'IBM Plex Mono', ui-monospace, monospace;
+  --display-weight:    400;
+  --display-italic:    normal;
+  --display-tracking:  -0.03em;
+  --display-transform: none;
 
-  --rule-width: 1px;
-  --pad:        22px;
-  --gap:        14px;
+  /* SPACING */
+  --pad:  22px;
+  --gap:  14px;
+
+  /* RADIUS — sharp, matches the terminal aesthetic */
+  --radius:    2px;
+  --radius-sm: 0;
 }
