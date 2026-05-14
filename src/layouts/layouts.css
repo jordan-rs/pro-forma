@@ -1,0 +1,78 @@
+/* ─── GRID AREA ASSIGNMENTS (shared across all layouts) ─── */
+.c-header    { grid-area: header; }
+.c-headline  { grid-area: headline; }
+.c-summary   { grid-area: summary; }
+.c-funnel    { grid-area: funnel; }
+.c-chart     { grid-area: chart; }
+.c-scenarios { grid-area: scenarios; }
+.c-position  { grid-area: position; }
+.c-execution { grid-area: execution; }
+.c-footer    { grid-area: footer; }
+
+/* ─── LAYOUT: STACK ─── */
+.layout-stack .pf-sheet-main {
+  display: flex;
+  flex-direction: column;
+  padding: 36px 40px;
+  gap: var(--gap);
+}
+
+/* ─── LAYOUT: HERO-GRID ─── */
+.layout-grid .pf-sheet-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "header    header"
+    "headline  headline"
+    "summary   summary"
+    "funnel    funnel"
+    "chart     chart"
+    "position  scenarios"
+    "execution execution"
+    "footer    footer";
+  padding: 36px 40px;
+  gap: var(--gap);
+}
+
+/* ─── LAYOUT: MAGAZINE ─── */
+.layout-mag .pf-sheet-main {
+  display: grid;
+  grid-template-columns: 1.45fr 1fr;
+  grid-template-areas:
+    "header    header"
+    "headline  headline"
+    "summary   summary"
+    "funnel    funnel"
+    "chart     scenarios"
+    "position  position"
+    "execution execution"
+    "footer    footer";
+  padding: 36px 40px;
+  gap: var(--gap);
+}
+
+/* ─── LAYOUT: BRIEFING ─── */
+.layout-brief .pf-sheet-main {
+  display: grid;
+  grid-template-columns: 1fr 1.55fr 1fr;
+  grid-template-areas:
+    "header    header    header"
+    "headline  headline  headline"
+    "summary   summary   summary"
+    "funnel    funnel    funnel"
+    "position  chart     scenarios"
+    "execution execution execution"
+    "footer    footer    footer";
+  padding: 32px 34px;
+  gap: var(--gap);
+}
+
+/* ─── BRUTALIST OVERRIDES ─── */
+.style-brutalist .pf-sheet-main {
+  padding: 0 !important;
+  gap: 0 !important;
+}
+.style-brutalist .c-header,
+.style-brutalist .c-headline {
+  padding: 20px 24px;
+}

@@ -1,0 +1,25 @@
+.style-brutalist {
+  --bg:          #E8E4DD;
+  --bg-2:        #DDD7C7;
+  --bg-3:        #CFC6B0;
+  --fg:          #0A0A0A;
+  --fg-2:        #1A1A1A;
+  --fg-3:        #4A4A4A;
+  --rule:        #0A0A0A;
+  --rule-2:      #0A0A0A;
+  --accent:      #D40000;
+  --accent-dim:  #8B0000;
+  --warn:        #0A0A0A;
+  --positive:    #006600;
+
+  --display-font:    'Anton', sans-serif;
+  --body-font:       'Archivo Narrow', sans-serif;
+  --mono-font:       'DM Mono', monospace;
+  --display-weight:  400;
+  --display-italic:  normal;
+  --display-tracking: 0;
+
+  --rule-width: 3px;
+  --pad:        18px;
+  --gap:        0px;
+}

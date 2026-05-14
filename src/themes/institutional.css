@@ -1,0 +1,25 @@
+.style-institutional {
+  --bg:          #0E1F3D;
+  --bg-2:        #16294D;
+  --bg-3:        #1F3460;
+  --fg:          #F0E9CC;
+  --fg-2:        #B0AB91;
+  --fg-3:        #7E7960;
+  --rule:        #2A3F65;
+  --rule-2:      #3F5685;
+  --accent:      #D4AF37;
+  --accent-dim:  #8B6F2A;
+  --warn:        #D4AF37;
+  --positive:    #74B198;
+
+  --display-font:    'Cormorant Garamond', serif;
+  --body-font:       'Source Serif 4', Georgia, serif;
+  --mono-font:       'JetBrains Mono', monospace;
+  --display-weight:  500;
+  --display-italic:  italic;
+  --display-tracking: -0.01em;
+
+  --rule-width: 0.75px;
+  --pad:        26px;
+  --gap:        18px;
+}

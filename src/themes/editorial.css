@@ -1,0 +1,25 @@
+.style-editorial {
+  --bg:          #FFF1E5;
+  --bg-2:        #FBE7D2;
+  --bg-3:        #F5DDC1;
+  --fg:          #0D0D0D;
+  --fg-2:        #66625A;
+  --fg-3:        #989284;
+  --rule:        #E8DCC4;
+  --rule-2:      #C4B89F;
+  --accent:      #C8141A;
+  --accent-dim:  #8B0E12;
+  --warn:        #66625A;
+  --positive:    #2D6A4F;
+
+  --display-font:    'Newsreader', Georgia, serif;
+  --body-font:       'Hanken Grotesk', sans-serif;
+  --mono-font:       'JetBrains Mono', monospace;
+  --display-weight:  300;
+  --display-italic:  italic;
+  --display-tracking: -0.025em;
+
+  --rule-width: 0.5px;
+  --pad:        26px;
+  --gap:        18px;
+}

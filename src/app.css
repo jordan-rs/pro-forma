@@ -1,0 +1,71 @@
+/* ─── RESET ─── */
+*, *::before, *::after { box-sizing: border-box; }
+html, body, #app { margin: 0; padding: 0; height: 100%; }
+
+/* ─── WORKSHOP SHELL ─── */
+.pf-shell {
+  display: grid;
+  grid-template-rows: 48px 1fr;
+  grid-template-columns: 380px 1fr;
+  grid-template-areas:
+    "topbar  topbar"
+    "sidebar preview";
+  height: 100vh;
+  background: #0a0a0e;
+  color: #B5B5BD;
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.pf-topbar {
+  grid-area: topbar;
+  background: #0a0a0e;
+  border-bottom: 1px solid #25252e;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 16px;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6D6D78;
+  z-index: 10;
+}
+
+.pf-topbar .brand {
+  color: #C8FF00;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  font-size: 12px;
+}
+
+.pf-topbar .sep {
+  color: #25252e;
+}
+
+.pf-sidebar {
+  grid-area: sidebar;
+  overflow-y: auto;
+  border-right: 1px solid #25252e;
+  background: #0a0a0e;
+}
+
+.pf-preview {
+  grid-area: preview;
+  overflow-y: auto;
+  background: #16161c;
+  padding: 28px;
+}
+
+.pf-topbar-btn {
+  background: transparent;
+  border: 1px solid #25252e;
+  color: #B5B5BD;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 9.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+.pf-topbar-btn:hover { border-color: #C8FF00; color: #fff; }

@@ -1,0 +1,25 @@
+.style-terminal {
+  --bg:          #08080B;
+  --bg-2:        #0E0E13;
+  --bg-3:        #15151B;
+  --fg:          #E8E1CC;
+  --fg-2:        #A8A091;
+  --fg-3:        #5C564B;
+  --rule:        #1E1E26;
+  --rule-2:      #2C2C36;
+  --accent:      #C8FF00;
+  --accent-dim:  #7A9A00;
+  --warn:        #FF6B35;
+  --positive:    #C8FF00;
+
+  --display-font:    'Bricolage Grotesque', sans-serif;
+  --body-font:       'IBM Plex Mono', monospace;
+  --mono-font:       'IBM Plex Mono', monospace;
+  --display-weight:  400;
+  --display-italic:  normal;
+  --display-tracking: -0.03em;
+
+  --rule-width: 1px;
+  --pad:        22px;
+  --gap:        14px;
+}

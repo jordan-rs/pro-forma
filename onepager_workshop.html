@@ -1,0 +1,1265 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Workshop · Subscription management restated</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;900&family=Archivo+Narrow:wght@400;500;600;700&family=Big+Shoulders+Display:wght@500;700;900&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=DM+Mono:wght@400;500&family=IBM+Plex+Mono:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600&family=Roboto+Mono:wght@400;500;600&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">
+<style>
+  /* ─── BASE TOKENS (shared across styles) ─── */
+  /* Fonts are defined per-style below */
+
+  /* ─── STYLE: EDITORIAL (FT salmon) — default ─── */
+  body.style-editorial {
+    --bg: #FAF5E8;
+    --bg-2: #F2EBD4;
+    --bg-3: #EAE0BE;
+    --bg-card: #FFFFFF;
+    --fg: #161512;
+    --fg-2: #5A5648;
+    --fg-3: #8E8870;
+    --rule: #DDD3B5;
+    --rule-2: #B8AC85;
+    --accent: #B43000;
+    --accent-soft: #C8552E;
+    --accent-dim: #7E2200;
+    --positive: #2D6A4F;
+    --positive-soft: #74B198;
+    --lock-bg: #E8DCB8;
+    --lock-fg: #7E6F45;
+    --display-font: 'Cormorant Garamond', Georgia, serif;
+    --display-italic: italic;
+    --display-weight: 500;
+    --body-font: 'Source Serif 4', Georgia, serif;
+    --mono-font: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── STYLE: TERMINAL (dark + chartreuse) ─── */
+  body.style-terminal {
+    --bg: #08080B;
+    --bg-2: #0E0E13;
+    --bg-3: #15151B;
+    --bg-card: #14141A;
+    --fg: #E8E1CC;
+    --fg-2: #A8A091;
+    --fg-3: #5C564B;
+    --rule: #1E1E26;
+    --rule-2: #2C2C36;
+    --accent: #C8FF00;
+    --accent-soft: #9FD000;
+    --accent-dim: #7A9A00;
+    --positive: #C8FF00;
+    --positive-soft: #9FD000;
+    --lock-bg: #1E1E26;
+    --lock-fg: #A8A091;
+    --display-font: 'Bricolage Grotesque', sans-serif;
+    --display-italic: normal;
+    --display-weight: 400;
+    --body-font: 'IBM Plex Mono', monospace;
+    --mono-font: 'IBM Plex Mono', monospace;
+  }
+
+  /* ─── STYLE: MODERNIST (white + tangerine) ─── */
+  body.style-modernist {
+    --bg: #FAFAFA;
+    --bg-2: #F0F0F0;
+    --bg-3: #E0E0E0;
+    --bg-card: #FFFFFF;
+    --fg: #000000;
+    --fg-2: #333333;
+    --fg-3: #888888;
+    --rule: #CCCCCC;
+    --rule-2: #000000;
+    --accent: #FF4500;
+    --accent-soft: #FF7043;
+    --accent-dim: #B23000;
+    --positive: #2D6A4F;
+    --positive-soft: #74B198;
+    --lock-bg: #E0E0E0;
+    --lock-fg: #333333;
+    --display-font: 'Big Shoulders Display', sans-serif;
+    --display-italic: normal;
+    --display-weight: 900;
+    --body-font: 'Archivo', sans-serif;
+    --mono-font: 'Roboto Mono', monospace;
+  }
+
+  /* ─── STYLE: INSTITUTIONAL (navy + gold) ─── */
+  body.style-institutional {
+    --bg: #0E1F3D;
+    --bg-2: #16294D;
+    --bg-3: #1F3460;
+    --bg-card: #16294D;
+    --fg: #F0E9CC;
+    --fg-2: #B0AB91;
+    --fg-3: #7E7960;
+    --rule: #2A3F65;
+    --rule-2: #3F5685;
+    --accent: #D4AF37;
+    --accent-soft: #E0C361;
+    --accent-dim: #8B6F2A;
+    --positive: #74B198;
+    --positive-soft: #A8CDB6;
+    --lock-bg: #2A3F65;
+    --lock-fg: #D4AF37;
+    --display-font: 'Cormorant Garamond', serif;
+    --display-italic: italic;
+    --display-weight: 500;
+    --body-font: 'Source Serif 4', Georgia, serif;
+    --mono-font: 'JetBrains Mono', monospace;
+  }
+
+  /* ─── STYLE: BRUTALIST (bone + red, heavy rules) ─── */
+  body.style-brutalist {
+    --bg: #E8E4DD;
+    --bg-2: #DDD7C7;
+    --bg-3: #CFC6B0;
+    --bg-card: #F2EEE3;
+    --fg: #0A0A0A;
+    --fg-2: #1A1A1A;
+    --fg-3: #4A4A4A;
+    --rule: #0A0A0A;
+    --rule-2: #0A0A0A;
+    --accent: #D40000;
+    --accent-soft: #FF3333;
+    --accent-dim: #8B0000;
+    --positive: #006600;
+    --positive-soft: #339933;
+    --lock-bg: #CFC6B0;
+    --lock-fg: #0A0A0A;
+    --display-font: 'Anton', sans-serif;
+    --display-italic: normal;
+    --display-weight: 400;
+    --body-font: 'Archivo Narrow', sans-serif;
+    --mono-font: 'DM Mono', monospace;
+  }
+  body.style-brutalist .panel {
+    border-width: 3px;
+  }
+  body.style-brutalist .topbar,
+  body.style-brutalist .hero {
+    border-bottom-width: 3px;
+  }
+  body.style-brutalist .hero .card,
+  body.style-brutalist .locked-row,
+  body.style-brutalist .input-row {
+    border-width: 2px;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); font-family: var(--body-font); }
+
+  /* ─── TOP BAR ─── */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule-2);
+    padding: 12px 32px;
+    display: flex; align-items: baseline; gap: 24px;
+  }
+  .topbar .brand {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 500; font-size: 20px;
+    color: var(--fg); letter-spacing: -0.01em;
+  }
+  .topbar .brand .a { color: var(--accent); }
+  .topbar .crumb {
+    font-family: var(--mono-font); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-3);
+  }
+  .topbar .nav { margin-left: auto; display: flex; gap: 18px; }
+  .topbar .nav a {
+    font-family: var(--mono-font); font-size: 10.5px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--fg-2); text-decoration: none;
+    padding: 6px 10px; border: 1px solid var(--rule-2);
+    transition: all 0.15s;
+  }
+  .topbar .nav a:hover { color: var(--accent); border-color: var(--accent); }
+  .topbar .nav a.active { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+
+  .topbar .style-toggle {
+    display: flex; gap: 4px; align-items: center;
+    margin-left: 16px;
+    padding-left: 16px;
+    border-left: 1px solid var(--rule);
+  }
+  .topbar .style-toggle-lbl {
+    font-family: var(--mono-font); font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg-3); margin-right: 6px;
+  }
+  .topbar .style-toggle button {
+    font-family: var(--mono-font); font-size: 10px;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--fg-2);
+    background: transparent;
+    border: 1px solid var(--rule-2);
+    padding: 5px 9px;
+    cursor: pointer; transition: all 0.12s;
+  }
+  .topbar .style-toggle button:hover {
+    color: var(--accent); border-color: var(--accent);
+  }
+  .topbar .style-toggle button.on {
+    background: var(--accent); color: var(--bg);
+    border-color: var(--accent); font-weight: 600;
+  }
+
+  /* ─── HERO BAND — sticky live numbers ─── */
+  .hero {
+    position: sticky; top: 49px; z-index: 40;
+    background: var(--bg);
+    border-bottom: 1px solid var(--rule-2);
+    padding: 14px 32px 18px;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    max-width: 1280px; margin: 0 auto;
+  }
+  .hero .card {
+    background: var(--bg-card);
+    border: 1px solid var(--rule-2);
+    padding: 14px 18px;
+    position: relative;
+  }
+  .hero .card.focal {
+    background: var(--accent); color: var(--bg);
+    border-color: var(--accent);
+  }
+  .hero .card .lab {
+    font-family: var(--mono-font); font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg-3); margin-bottom: 8px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .hero .card.focal .lab { color: rgba(255,255,255,0.75); }
+  .hero .card .lock-tag {
+    background: var(--lock-bg); color: var(--lock-fg);
+    padding: 1px 6px; font-size: 8px; letter-spacing: 0.16em;
+    font-weight: 600;
+  }
+  .hero .card.focal .lock-tag { background: rgba(255,255,255,0.2); color: white; }
+  .hero .card .num {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 600; font-size: 36px;
+    line-height: 0.95; letter-spacing: -0.02em;
+    color: var(--accent); margin-bottom: 4px;
+  }
+  .hero .card .num.neg { color: var(--accent); }
+  .hero .card .num.pos { color: var(--positive); }
+  .hero .card.focal .num { color: var(--bg); }
+  .hero .card .sub {
+    font-family: var(--mono-font); font-size: 10px;
+    color: var(--fg-2); letter-spacing: 0.04em;
+  }
+  .hero .card.focal .sub { color: rgba(255,255,255,0.8); }
+
+  /* ─── MAIN LAYOUT ─── */
+  .main {
+    max-width: 1280px; margin: 0 auto;
+    padding: 28px 32px 60px;
+    display: grid;
+    grid-template-columns: 420px 1fr;
+    gap: 28px;
+  }
+  @media (max-width: 1100px) {
+    .main { grid-template-columns: 1fr; }
+  }
+
+  /* ─── PANEL ─── */
+  .panel {
+    background: var(--bg-card);
+    border: 1px solid var(--rule-2);
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .panel h2 {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 500; font-size: 22px;
+    color: var(--fg); margin: 0 0 14px;
+    letter-spacing: -0.01em;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .panel h2 .meta {
+    font-family: var(--mono-font); font-style: normal;
+    font-size: 9px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--fg-3); font-weight: 400;
+  }
+  .panel h3 {
+    font-family: var(--mono-font); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg-3); font-weight: 600;
+    margin: 0 0 10px;
+  }
+
+  /* ─── LOCKED ROWS ─── */
+  .locked-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 10px; align-items: center;
+    padding: 8px 12px;
+    background: var(--bg-2);
+    border-left: 3px solid var(--lock-fg);
+    margin-bottom: 6px;
+  }
+  .locked-row .lock {
+    font-family: var(--mono-font); font-size: 9px;
+    letter-spacing: 0.16em; color: var(--lock-fg);
+    font-weight: 600;
+    background: var(--lock-bg);
+    padding: 2px 7px;
+  }
+  .locked-row .lab {
+    font-family: var(--body-font); font-size: 12.5px;
+    color: var(--fg);
+  }
+  .locked-row .val {
+    font-family: var(--mono-font); font-size: 13px;
+    color: var(--fg); font-weight: 500;
+  }
+
+  /* ─── INPUT ROW ─── */
+  .input-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 12px; align-items: center;
+    padding: 10px 12px;
+    border: 1px solid var(--rule-2);
+    margin-bottom: 6px;
+  }
+  .input-row .lab {
+    font-family: var(--body-font); font-size: 12.5px; color: var(--fg);
+  }
+  .input-row .lab .hint {
+    display: block; font-size: 10.5px; color: var(--fg-3);
+    font-family: var(--mono-font); margin-top: 2px;
+  }
+  .input-row input[type=number] {
+    width: 80px; padding: 6px 8px;
+    background: var(--bg); color: var(--fg);
+    border: 1px solid var(--rule-2);
+    font-family: var(--mono-font); font-size: 13px;
+    text-align: right;
+  }
+  .input-row input[type=number]:focus { outline: 2px solid var(--accent); }
+  .input-row .unit {
+    font-family: var(--mono-font); font-size: 11px; color: var(--fg-2);
+  }
+
+  /* ─── SLIDER ROW ─── */
+  .slider-row {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .slider-row:last-child { border-bottom: none; }
+  .slider-row .top {
+    display: flex; justify-content: space-between; align-items: baseline;
+    margin-bottom: 6px;
+  }
+  .slider-row .lab {
+    font-family: var(--body-font); font-size: 12.5px; color: var(--fg);
+  }
+  .slider-row .lab .note {
+    font-family: var(--display-font); font-style: italic;
+    font-size: 12px; color: var(--fg-2);
+    margin-left: 4px;
+  }
+  .slider-row .val-pair {
+    font-family: var(--mono-font); font-size: 13.5px;
+    color: var(--accent); font-weight: 600;
+  }
+  .slider-row .val-pair .delta {
+    font-size: 10.5px; color: var(--positive);
+    margin-left: 8px;
+  }
+  .slider-row .val-pair .delta.zero { color: var(--fg-3); }
+  .slider-row .val-pair .delta.neg { color: var(--accent); }
+  .slider-row .baseline {
+    font-family: var(--mono-font); font-size: 9.5px;
+    letter-spacing: 0.06em; color: var(--fg-3);
+  }
+
+  /* Custom slider styling */
+  input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 4px;
+    background: var(--rule);
+    border-radius: 0;
+    outline: none;
+    cursor: pointer;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px; height: 16px;
+    background: var(--accent);
+    border: 2px solid var(--bg-card);
+    box-shadow: 0 0 0 1px var(--accent);
+    border-radius: 50%;
+    cursor: grab;
+  }
+  input[type=range]::-webkit-slider-thumb:active { cursor: grabbing; }
+  input[type=range]::-moz-range-thumb {
+    width: 16px; height: 16px;
+    background: var(--accent);
+    border: 2px solid var(--bg-card);
+    box-shadow: 0 0 0 1px var(--accent);
+    border-radius: 50%;
+    cursor: grab;
+  }
+
+  /* Slider wrap with baseline marker */
+  .slider-wrap {
+    position: relative;
+    padding: 20px 0 4px;
+  }
+  .baseline-marker {
+    position: absolute;
+    top: 0;
+    left: calc(8px + var(--pos) * (100% - 16px));
+    transform: translateX(-50%);
+    pointer-events: none;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .baseline-marker .lab {
+    font-family: var(--mono-font);
+    font-size: 9px;
+    letter-spacing: 0.04em;
+    color: var(--fg-2);
+    background: var(--bg-card);
+    padding: 0 5px;
+    white-space: nowrap;
+    margin-bottom: 2px;
+  }
+  .baseline-marker .tick {
+    width: 1px;
+    height: 10px;
+    background: var(--fg-2);
+  }
+
+  /* tech slider row — has TWO sliders side by side */
+  .tech-row-slider {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tech-row-slider:last-child { border-bottom: none; }
+  .tech-row-slider .name {
+    font-family: var(--body-font); font-size: 12.5px; color: var(--fg);
+    margin-bottom: 4px;
+    display: flex; justify-content: space-between; align-items: baseline;
+  }
+  .tech-row-slider .name .note {
+    font-family: var(--display-font); font-style: italic;
+    font-size: 11.5px; color: var(--fg-2);
+    margin-left: 4px;
+  }
+  .tech-row-slider .name .vals {
+    font-family: var(--mono-font); font-size: 13px;
+    font-weight: 600; color: var(--accent);
+  }
+  .tech-row-slider .name .vals .arrow { color: var(--fg-3); margin: 0 4px; }
+  .tech-row-slider .name .vals .p3 { color: var(--positive); }
+  .tech-row-slider .dual {
+    display: grid; grid-template-columns: auto 1fr auto 1fr;
+    gap: 8px; align-items: center;
+  }
+  .tech-row-slider .dual .lab {
+    font-family: var(--mono-font); font-size: 8.5px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--fg-3); font-weight: 600;
+  }
+  .tech-row-slider .dual input[type=range]::-webkit-slider-thumb { background: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
+  .tech-row-slider .dual input[type=range].p3-slider::-webkit-slider-thumb { background: var(--positive); box-shadow: 0 0 0 1px var(--positive); }
+  .tech-row-slider .dual input[type=range].p3-slider::-moz-range-thumb { background: var(--positive); box-shadow: 0 0 0 1px var(--positive); }
+
+  /* ─── FUNNEL VIZ ─── */
+  .funnel-viz {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+    gap: 6px; align-items: stretch;
+    margin: 12px 0 4px;
+  }
+  .funnel-viz .stage {
+    text-align: center; padding: 12px 8px;
+    background: var(--bg-2);
+    border: 1px solid var(--rule);
+  }
+  .funnel-viz .stage .cnt {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 600; font-size: 24px;
+    color: var(--fg); letter-spacing: -0.01em;
+    line-height: 1;
+  }
+  .funnel-viz .stage .cnt .delta {
+    display: block;
+    font-family: var(--mono-font); font-style: normal;
+    font-size: 10px; color: var(--positive); font-weight: 500;
+    margin-top: 2px; letter-spacing: 0.04em;
+  }
+  .funnel-viz .stage .cnt .delta.zero { color: var(--fg-3); }
+  .funnel-viz .stage .lab {
+    font-family: var(--mono-font); font-size: 8.5px;
+    color: var(--fg-2); letter-spacing: 0.1em;
+    text-transform: uppercase; margin-top: 4px;
+  }
+  .funnel-viz .step {
+    padding: 4px; text-align: center;
+    display: flex; flex-direction: column; justify-content: center;
+    min-width: 70px;
+  }
+  .funnel-viz .step .rate {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 600; font-size: 16px;
+    color: var(--accent);
+  }
+  .funnel-viz .step .rate .baseline {
+    display: block;
+    font-family: var(--mono-font); font-style: normal;
+    font-size: 8.5px; color: var(--fg-3);
+    letter-spacing: 0.06em; margin-top: 1px;
+  }
+
+  /* ─── TECH FLOOR ─── */
+  .floor-totals {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px; align-items: stretch;
+    margin: 10px 0 18px;
+    background: var(--bg-2);
+    padding: 16px 20px;
+    border: 1px solid var(--rule);
+  }
+  .floor-totals .col .tag {
+    font-family: var(--mono-font); font-size: 9px;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--fg-3); margin-bottom: 4px;
+  }
+  .floor-totals .col .num {
+    font-family: var(--display-font); font-style: italic;
+    font-weight: 600; font-size: 30px;
+    color: var(--accent); line-height: 1;
+    letter-spacing: -0.02em; margin-bottom: 4px;
+  }
+  .floor-totals .col.p3 .num { color: var(--positive); }
+  .floor-totals .col .sub {
+    font-family: var(--mono-font); font-size: 11px;
+    color: var(--fg-2); line-height: 1.4;
+  }
+  .floor-totals .arr {
+    font-family: var(--mono-font); font-size: 22px;
+    color: var(--fg-3); display: flex; align-items: center;
+  }
+
+  /* Tech bars */
+  .tech-bars { display: flex; flex-direction: column; }
+  .tech-bars .row {
+    display: grid;
+    grid-template-columns: 160px 1fr 90px;
+    gap: 16px; align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .tech-bars .row:last-child { border-bottom: none; }
+  .tech-bars .row .name {
+    font-family: var(--body-font); font-size: 13px;
+    color: var(--fg);
+  }
+  .tech-bars .row .name .note {
+    display: block;
+    font-family: var(--display-font); font-style: italic;
+    font-size: 11.5px; color: var(--fg-2);
+    margin-top: 1px;
+  }
+  .tech-bars .row .bars {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .tech-bars .row .bar {
+    height: 9px; background: var(--bg-2);
+    position: relative;
+  }
+  .tech-bars .row .bar .fill {
+    position: absolute; top: 0; left: 0; bottom: 0;
+    transition: width 0.2s;
+  }
+  .tech-bars .row .bar .fill.today { background: var(--accent); }
+  .tech-bars .row .bar .fill.p3 { background: var(--positive); }
+  .tech-bars .row .vals {
+    font-family: var(--mono-font); font-size: 12.5px;
+    text-align: right;
+  }
+  .tech-bars .row .vals .today-v { color: var(--accent); font-weight: 600; }
+  .tech-bars .row .vals .arrow { color: var(--fg-3); margin: 0 4px; }
+  .tech-bars .row .vals .p3-v { color: var(--positive); font-weight: 600; }
+
+  /* ─── CHART ─── */
+  .chart-panel { padding: 22px 24px; }
+  .chart-panel .conclusion {
+    font-family: var(--body-font); font-size: 12.5px;
+    color: var(--fg); line-height: 1.55;
+    background: var(--bg-2);
+    padding: 10px 14px;
+    border-left: 3px solid var(--accent);
+    margin-bottom: 16px;
+  }
+  .chart-panel .conclusion .em { color: var(--accent); font-weight: 600; }
+  .chart-panel .conclusion .em-pos { color: var(--positive); font-weight: 600; }
+  .pnl { display: block; width: 100%; height: auto; }
+  .pnl .grid-h { stroke: var(--rule); stroke-width: 0.5; stroke-dasharray: 2 4; }
+  .pnl .zero { stroke: var(--fg); stroke-width: 0.75; opacity: 0.4; }
+  .pnl .ax { font-family: var(--mono-font); font-size: 9.5px; fill: var(--fg-2); }
+  .pnl .ax-zero { font-family: var(--mono-font); font-size: 10px; fill: var(--fg); font-weight: 600; }
+  .pnl .l-net { stroke: var(--accent); stroke-width: 2.4; fill: none; }
+  .pnl .l-net.is-pos { stroke: var(--positive); }
+  .pnl .area-loss { fill: var(--accent); opacity: 0.08; }
+  .pnl .area-gain { fill: var(--positive); opacity: 0.08; }
+  .pnl .be { fill: var(--positive); stroke: var(--bg-card); stroke-width: 2; }
+  .pnl .be-text { font-family: var(--mono-font); font-size: 10px; fill: var(--positive); font-weight: 600; letter-spacing: 0.06em; }
+  .pnl .endpoint { font-family: var(--mono-font); font-size: 11px; fill: var(--accent); font-weight: 600; }
+  .pnl .endpoint.is-pos { fill: var(--positive); }
+
+  /* small */
+  .help { font-family: var(--display-font); font-style: italic; font-size: 13px; color: var(--fg-2); margin-bottom: 12px; line-height: 1.5; }
+
+  .footer-notes {
+    max-width: 1280px; margin: 0 auto;
+    padding: 18px 32px 36px;
+    font-family: var(--mono-font); font-size: 10px;
+    line-height: 1.6; color: var(--fg-2); letter-spacing: 0.02em;
+  }
+  .footer-notes .tag {
+    color: var(--accent); letter-spacing: 0.18em;
+    text-transform: uppercase; font-weight: 600;
+    font-size: 9px; margin-right: 8px;
+  }
+</style>
+</head>
+<body class="style-editorial">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="brand">Subscription management <span class="a">restated</span></div>
+  <div class="crumb">workshop · live model</div>
+  <div class="style-toggle">
+    <span class="style-toggle-lbl">STYLE</span>
+    <button data-style="editorial" class="on">Editorial</button>
+    <button data-style="terminal">Terminal</button>
+    <button data-style="modernist">Modernist</button>
+    <button data-style="institutional">Institutional</button>
+    <button data-style="brutalist">Brutalist</button>
+  </div>
+  <div class="nav">
+    <a href="onepager_studio.html">One-pager</a>
+    <a href="#" class="active">Workshop</a>
+  </div>
+</div>
+
+<!-- HERO BAND -->
+<div class="hero">
+  <div class="hero-grid">
+    <div class="card">
+      <div class="lab">Cost added · 24 mo <span class="lock-tag" title="Derived from locked inputs">PART LOCK</span></div>
+      <div class="num neg" id="hero-cost">+$0K</div>
+      <div class="sub" id="hero-cost-sub">labor + RC fee vs. status quo</div>
+    </div>
+    <div class="card">
+      <div class="lab">Capacity freed</div>
+      <div class="num pos" id="hero-cap">0.00 FTE</div>
+      <div class="sub" id="hero-cap-sub">engineering hrs redeployable</div>
+    </div>
+    <div class="card">
+      <div class="lab">Revenue lift · 24 mo</div>
+      <div class="num pos" id="hero-rev">+$0K</div>
+      <div class="sub" id="hero-rev-sub">at current rate sliders</div>
+    </div>
+    <div class="card focal">
+      <div class="lab">Net P&amp;L · M24</div>
+      <div class="num" id="hero-net">+$0K</div>
+      <div class="sub" id="hero-net-sub">payback: —</div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- LEFT: CONTROLS -->
+  <div class="controls">
+
+    <div class="panel">
+      <h2>Locked inputs <span class="meta">cannot be edited</span></h2>
+      <div class="help">These are fixed by contract, pricing strategy, or the strategic plan. The workshop bets on what changes around them.</div>
+      <div class="locked-row">
+        <span class="lock">🔒 LOCKED</span>
+        <span class="lab">Acquisitions / yr</span>
+        <span class="val">2,000,000</span>
+      </div>
+      <div class="locked-row">
+        <span class="lock">🔒 LOCKED</span>
+        <span class="lab">Renewal price</span>
+        <span class="val">$79</span>
+      </div>
+      <div class="locked-row">
+        <span class="lock">🔒 LOCKED</span>
+        <span class="lab">RC fee · Y1 discounted</span>
+        <span class="val">$163,000</span>
+      </div>
+      <div class="locked-row">
+        <span class="lock">🔒 LOCKED</span>
+        <span class="lab">RC fee · Y2+ standard</span>
+        <span class="val">$232,000</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Engineering rate <span class="meta">editable</span></h2>
+      <div class="input-row">
+        <span class="lab">Loaded hourly rate
+          <span class="hint">160 hrs/mo × 12 = 1,920 hrs/yr per FTE</span>
+        </span>
+        <input type="number" id="hourly-rate" value="78" min="40" max="200" step="1">
+        <span class="unit">$ / hr</span>
+      </div>
+      <div class="input-row" style="background: var(--bg-2); border: none;">
+        <span class="lab" style="font-family: var(--mono-font); font-size: 11px; color: var(--fg-2); letter-spacing: 0.04em;">implied annual loaded</span>
+        <span class="unit" style="font-family: var(--mono-font); font-size: 13px; color: var(--fg); font-weight: 500;" id="implied-annual">$149,760</span>
+        <span class="unit">/ FTE</span>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Conversion rates <span class="meta">the bet</span></h2>
+      <div class="help">Drag above the baseline marker to model the lift you believe RC enables.</div>
+
+      <div class="slider-row">
+        <div class="top">
+          <div class="lab">Trial-start rate <span class="note">first 7 days after acquisition</span></div>
+          <div class="val-pair"><span id="val-trial-start">9.5%</span><span class="delta zero" id="delta-trial-start">±0pp</span></div>
+        </div>
+        <div class="slider-wrap" style="--pos: 0.3889">
+          <div class="baseline-marker"><div class="lab">9.5%</div><div class="tick"></div></div>
+          <input type="range" id="rate-trial-start" min="6" max="15" step="0.1" value="9.5">
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <div class="top">
+          <div class="lab">Trial → paid rate <span class="note">within 15 days of trial</span></div>
+          <div class="val-pair"><span id="val-trial-paid">60%</span><span class="delta zero" id="delta-trial-paid">±0pp</span></div>
+        </div>
+        <div class="slider-wrap" style="--pos: 0.3333">
+          <div class="baseline-marker"><div class="lab">60%</div><div class="tick"></div></div>
+          <input type="range" id="rate-trial-paid" min="50" max="80" step="0.5" value="60">
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <div class="top">
+          <div class="lab">Renewal rate <span class="note">year over year after trial-paid</span></div>
+          <div class="val-pair"><span id="val-renewal">47%</span><span class="delta zero" id="delta-renewal">±0pp</span></div>
+        </div>
+        <div class="slider-wrap" style="--pos: 0.28">
+          <div class="baseline-marker"><div class="lab">47%</div><div class="tick"></div></div>
+          <input type="range" id="rate-renewal" min="40" max="65" step="0.5" value="47">
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>Engineering time <span class="meta">hrs / mo per tech</span></h2>
+      <div class="help">Sliders move in 1-hour increments. Adjust Today (red) and Phase 3 steady (green) per component. The totals flow to FTE and labor cost above.</div>
+
+      <div id="tech-sliders"></div>
+    </div>
+
+  </div>
+
+  <!-- RIGHT: VISUALIZATIONS -->
+  <div class="viz">
+
+    <div class="panel">
+      <h2>Funnel <span class="meta">live</span></h2>
+      <div class="funnel-viz">
+        <div class="stage">
+          <div class="cnt">2M<span class="delta zero">locked</span></div>
+          <div class="lab">acquired / yr</div>
+        </div>
+        <div class="step">
+          <div class="rate"><span id="f-rate-1">9.5%</span><span class="baseline">baseline 9.5%</span></div>
+        </div>
+        <div class="stage">
+          <div class="cnt"><span id="f-trials">190K</span><span class="delta zero" id="f-trials-delta">±0</span></div>
+          <div class="lab">trial starts / yr</div>
+        </div>
+        <div class="step">
+          <div class="rate"><span id="f-rate-2">60%</span><span class="baseline">baseline 60%</span></div>
+        </div>
+        <div class="stage">
+          <div class="cnt"><span id="f-paid">114K</span><span class="delta zero" id="f-paid-delta">±0</span></div>
+          <div class="lab">paid conv / yr</div>
+        </div>
+        <div class="step">
+          <div class="rate"><span id="f-rate-3">47%</span><span class="baseline">baseline 47%</span></div>
+        </div>
+        <div class="stage">
+          <div class="cnt"><span id="f-renewals">54K</span><span class="delta zero" id="f-renewals-delta">±0</span></div>
+          <div class="lab">renewals / yr</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <h2>The floor <span class="meta">what the line item buys</span></h2>
+      <div class="floor-totals">
+        <div class="col today">
+          <div class="tag">TODAY</div>
+          <div class="num"><span id="today-hrs">172</span> hrs/mo</div>
+          <div class="sub"><span id="today-fte">1.08</span> FTE &nbsp;·&nbsp; $<span id="today-labor">161K</span> labor/yr</div>
+        </div>
+        <div class="arr">→</div>
+        <div class="col p3">
+          <div class="tag">PHASE 3 STEADY</div>
+          <div class="num"><span id="p3-hrs">81</span> hrs/mo</div>
+          <div class="sub"><span id="p3-fte">0.51</span> FTE &nbsp;·&nbsp; $<span id="p3-labor">76K</span> labor + $232K RC</div>
+        </div>
+      </div>
+      <div class="tech-bars" id="tech-bars"></div>
+    </div>
+
+    <div class="panel chart-panel">
+      <h2>Net P&amp;L — 24-month curve <span class="meta">live recompute</span></h2>
+      <div class="conclusion" id="chart-conclusion">
+        Move the rate sliders to see this curve respond. At baseline rates with no lift believed, the curve is purely the cost trajectory.
+      </div>
+      <svg class="pnl" viewBox="0 0 1020 360" xmlns="http://www.w3.org/2000/svg">
+        <!-- gridlines -->
+        <line x1="50" y1="81" x2="980" y2="81" class="grid-h"/>
+        <line x1="50" y1="183" x2="980" y2="183" class="grid-h"/>
+
+        <!-- area fills (gain above zero, loss below) — paths set by JS -->
+        <path id="area-fill" class="area-loss" d=""/>
+
+        <!-- net line — points set by JS -->
+        <polyline id="net-line" class="l-net" points=""/>
+
+        <!-- zero rail -->
+        <line x1="50" y1="285" x2="980" y2="285" class="zero"/>
+
+        <!-- Y axis -->
+        <g text-anchor="end">
+          <text x="42" y="34" class="ax">+$5M</text>
+          <text x="42" y="85" class="ax">+$4M</text>
+          <text x="42" y="136" class="ax">+$3M</text>
+          <text x="42" y="187" class="ax">+$2M</text>
+          <text x="42" y="238" class="ax">+$1M</text>
+          <text x="42" y="289" class="ax-zero">$0</text>
+          <text x="42" y="314" class="ax">−$500K</text>
+        </g>
+
+        <!-- X axis -->
+        <g text-anchor="middle">
+          <text x="50" y="328" class="ax">M0</text>
+          <text x="282.5" y="328" class="ax">M6</text>
+          <text x="515" y="328" class="ax">M12</text>
+          <text x="747.5" y="328" class="ax">M18</text>
+          <text x="980" y="328" class="ax">M24</text>
+        </g>
+
+        <!-- payback marker — placed by JS -->
+        <circle id="be-dot" class="be" cx="-10" cy="285" r="0"/>
+        <text id="be-label" class="be-text" x="-10" y="304" text-anchor="middle"></text>
+
+        <!-- endpoint -->
+        <text id="endpoint-label" class="endpoint" x="990" y="285" text-anchor="start"></text>
+      </svg>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer-notes">
+  <span class="tag">workshop notes</span>
+  All numbers compute from inputs above. Cost model: Y1 assumes labor still at today's level + RC discounted ($163K) + ~$11K migration build effort. Y2 assumes labor 50% bent toward Phase 3 + RC at $232K/yr. Steady state (Y3+) reached at full Phase 3 labor. Revenue model: lift = (rates above baseline) × funnel × $79 renewal price, ramped linearly M3→M9 then full rate through M24. Payback computed where cumulative lift crosses cumulative cost added. 2M acquisitions / $79 price / $232K RC fee are locked.
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════════════════════════
+const state = {
+  // Locked
+  acquisitions: 2_000_000,
+  renewalPrice: 79,
+  rcDiscountY1: 163_000,
+  rcAnnualFee: 232_000,
+  migrationY1: 11_000,
+
+  // Baseline rates (for lift comparison)
+  baseline: { trialStart: 9.5, trialPaid: 60, renewal: 47 },
+
+  // Adjustable inputs
+  hourlyRate: 78,
+  trialStart: 9.5,
+  trialPaid: 60,
+  renewal: 47,
+
+  // Tech components
+  tech: [
+    { id: 'subservice', name: 'Sub Service', note: null, today: 25, p3: 8, max: 60 },
+    { id: 'sca',        name: 'SCA checkout', note: 'stays', today: 30, p3: 21, max: 60 },
+    { id: 'webhooks',   name: 'Webhooks', note: null, today: 18, p3: 7, max: 40 },
+    { id: 'webpaywall', name: 'Web paywall', note: 'new lever', today: 2, p3: 4, max: 30 },
+    { id: 'authx',      name: 'AuthX', note: 'retires sub path', today: 25, p3: 1, max: 60 },
+    { id: 'ufan',       name: 'UFan trio', note: null, today: 30, p3: 15, max: 60 },
+    { id: 'voucher',    name: 'Voucher stack', note: null, today: 22, p3: 15, max: 50 },
+    { id: 'avalara',    name: 'Avalara lambda', note: 'tear-down', today: 15, p3: 2, max: 40 },
+    { id: 'stripe',     name: 'Stripe', note: 'new integration', today: 5, p3: 8, max: 30 }
+  ]
+};
+
+// ════════════════════════════════════════════════════════════════════
+// COMPUTE
+// ════════════════════════════════════════════════════════════════════
+function compute() {
+  const totalToday = state.tech.reduce((s, t) => s + t.today, 0);
+  const totalP3 = state.tech.reduce((s, t) => s + t.p3, 0);
+  const todayFTE = totalToday / 160;
+  const p3FTE = totalP3 / 160;
+  const todayLaborAnnual = totalToday * 12 * state.hourlyRate;
+  const p3LaborAnnual = totalP3 * 12 * state.hourlyRate;
+  const capacityFreedFTE = todayFTE - p3FTE;
+
+  // Cost model:
+  // Y1 labor bend factor = 0 (transition year, labor at today's level)
+  // Y2 labor bend factor = 0.5 (half-bent toward Phase 3)
+  const laborBendY1 = 0.0;
+  const laborBendY2 = 0.5;
+  const laborY1 = todayLaborAnnual - (todayLaborAnnual - p3LaborAnnual) * laborBendY1;
+  const laborY2 = todayLaborAnnual - (todayLaborAnnual - p3LaborAnnual) * laborBendY2;
+
+  const costY1Total = laborY1 + state.rcDiscountY1 + state.migrationY1;
+  const costY2Total = laborY2 + state.rcAnnualFee;
+  const statusQuoY1 = todayLaborAnnual;
+  const statusQuoY2 = todayLaborAnnual;
+
+  const costAddedY1 = costY1Total - statusQuoY1;
+  const costAddedY2 = costY2Total - statusQuoY2;
+  const costAdded24mo = costAddedY1 + costAddedY2;
+
+  // Revenue model
+  const baselineTrials = state.acquisitions * state.baseline.trialStart / 100;
+  const baselinePaid = baselineTrials * state.baseline.trialPaid / 100;
+  const baselineRenewals = baselinePaid * state.baseline.renewal / 100;
+
+  const newTrials = state.acquisitions * state.trialStart / 100;
+  const newPaid = newTrials * state.trialPaid / 100;
+  const newRenewals = newPaid * state.renewal / 100;
+
+  const purchaseLift = (newPaid - baselinePaid) * state.renewalPrice;
+  const renewalLift = (newRenewals - baselineRenewals) * state.renewalPrice;
+  const annualLift = purchaseLift + renewalLift;
+
+  // Cumulative trajectory at month t
+  // Cost: linear ramp through Y1 then Y2
+  function costAt(t) {
+    if (t <= 12) return costAddedY1 * (t / 12);
+    return costAddedY1 + costAddedY2 * ((t - 12) / 12);
+  }
+  // Lift: M0–M3 = 0; M3–M9 = quadratic ramp (linear rate from 0 to full); M9+ = full rate
+  function liftAt(t) {
+    if (t < 3) return 0;
+    const monthlyFull = annualLift / 12;
+    if (t < 9) {
+      // cumulative = ∫₃ᵗ rate(s) ds where rate(s) = monthlyFull*(s-3)/6
+      return monthlyFull * Math.pow(t - 3, 2) / 12;
+    }
+    const rampCum = monthlyFull * 36 / 12; // = 3 × monthlyFull
+    return rampCum + monthlyFull * (t - 9);
+  }
+
+  const lift24 = liftAt(24);
+  const cost24 = costAt(24);
+  const netM24 = lift24 - cost24;
+
+  // Payback: find t where liftAt(t) >= costAt(t)
+  let paybackMonth = null;
+  for (let t = 3; t <= 24; t += 0.1) {
+    if (liftAt(t) >= costAt(t)) { paybackMonth = t; break; }
+  }
+
+  // Build chart polyline points
+  const points = [];
+  for (let t = 0; t <= 24; t += 0.5) {
+    const net = liftAt(t) - costAt(t);
+    const x = 50 + (t / 24) * 930;
+    const y = netToY(net);
+    points.push(`${x.toFixed(2)},${y.toFixed(2)}`);
+  }
+
+  // Build area fill path (between net line and zero)
+  // Use entire net curve, then close along zero
+  const areaPoints = [...points];
+  areaPoints.push(`${(50 + 930).toFixed(2)},285`);
+  areaPoints.push(`50,285`);
+  const areaPath = `M${areaPoints.join(' L')} Z`;
+
+  return {
+    totalToday, totalP3, todayFTE, p3FTE,
+    todayLaborAnnual, p3LaborAnnual, capacityFreedFTE,
+    costAddedY1, costAddedY2, costAdded24mo,
+    newTrials, newPaid, newRenewals,
+    annualLift, lift24, cost24, netM24, paybackMonth,
+    chartPoints: points.join(' '), areaPath, baselineTrials, baselinePaid, baselineRenewals
+  };
+}
+
+function netToY(net) {
+  // y-range: -$500K (y=310) to +$5M (y=30)
+  // $0 at y=285 (approx)
+  const yZero = 285;
+  const pxPerK = 280 / 5500;
+  return yZero - net * pxPerK / 1000;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// FORMATTING
+// ════════════════════════════════════════════════════════════════════
+function fmtMoney(n) {
+  const a = Math.abs(n);
+  if (a >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`;
+  if (a >= 1_000) return `${(n / 1_000).toFixed(0)}K`;
+  return n.toFixed(0);
+}
+function fmtMoneyS(n) {
+  const sign = n >= 0 ? '+' : '−';
+  return `${sign}$${fmtMoney(Math.abs(n))}`;
+}
+function fmtCount(n) {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(2)}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(0)}K`;
+  return n.toFixed(0);
+}
+function fmtPP(delta, abs=false) {
+  if (abs && Math.abs(delta) < 0.05) return '±0pp';
+  const sign = delta > 0 ? '+' : (delta < 0 ? '−' : '±');
+  return `${sign}${Math.abs(delta).toFixed(1)}pp`;
+}
+function fmtDeltaCount(delta) {
+  if (Math.abs(delta) < 100) return '±0';
+  const sign = delta > 0 ? '+' : '−';
+  return `${sign}${fmtCount(Math.abs(delta))}`;
+}
+
+// ════════════════════════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════════════════════════
+function render() {
+  const d = compute();
+
+  // Hero numbers
+  document.getElementById('hero-cost').textContent = fmtMoneyS(d.costAdded24mo);
+  document.getElementById('hero-cost-sub').textContent =
+    `Y1 ${fmtMoneyS(d.costAddedY1)} · Y2 ${fmtMoneyS(d.costAddedY2)}`;
+  document.getElementById('hero-cap').textContent = `${d.capacityFreedFTE.toFixed(2)} FTE`;
+  document.getElementById('hero-cap-sub').textContent =
+    `${state.tech.reduce((s,t)=>s+(t.today-t.p3),0)} hrs/mo redeployable`;
+  document.getElementById('hero-rev').textContent = fmtMoneyS(d.lift24);
+  document.getElementById('hero-rev-sub').textContent =
+    `${fmtMoneyS(d.annualLift)} / yr at full rate`;
+  document.getElementById('hero-net').textContent = fmtMoneyS(d.netM24);
+  document.getElementById('hero-net-sub').textContent =
+    d.paybackMonth ? `payback: M${d.paybackMonth.toFixed(1)}` : 'payback: not within 24 mo';
+
+  // Color of net hero card
+  const netCard = document.getElementById('hero-net').closest('.card');
+  if (d.netM24 >= 0) {
+    netCard.style.background = 'var(--positive)';
+    netCard.style.borderColor = 'var(--positive)';
+  } else {
+    netCard.style.background = 'var(--accent)';
+    netCard.style.borderColor = 'var(--accent)';
+  }
+
+  // Hourly rate implied
+  document.getElementById('implied-annual').textContent =
+    `$${(state.hourlyRate * 1920).toLocaleString()}`;
+
+  // Rate sliders display
+  document.getElementById('val-trial-start').textContent = `${state.trialStart.toFixed(1)}%`;
+  document.getElementById('val-trial-paid').textContent = `${state.trialPaid.toFixed(1)}%`;
+  document.getElementById('val-renewal').textContent = `${state.renewal.toFixed(1)}%`;
+  setDelta('delta-trial-start', state.trialStart - state.baseline.trialStart);
+  setDelta('delta-trial-paid', state.trialPaid - state.baseline.trialPaid);
+  setDelta('delta-renewal', state.renewal - state.baseline.renewal);
+
+  // Funnel live
+  document.getElementById('f-rate-1').textContent = `${state.trialStart.toFixed(1)}%`;
+  document.getElementById('f-rate-2').textContent = `${state.trialPaid.toFixed(1)}%`;
+  document.getElementById('f-rate-3').textContent = `${state.renewal.toFixed(1)}%`;
+  document.getElementById('f-trials').textContent = fmtCount(d.newTrials);
+  document.getElementById('f-paid').textContent = fmtCount(d.newPaid);
+  document.getElementById('f-renewals').textContent = fmtCount(d.newRenewals);
+  setFunnelDelta('f-trials-delta', d.newTrials - d.baselineTrials);
+  setFunnelDelta('f-paid-delta', d.newPaid - d.baselinePaid);
+  setFunnelDelta('f-renewals-delta', d.newRenewals - d.baselineRenewals);
+
+  // Tech floor totals
+  document.getElementById('today-hrs').textContent = d.totalToday;
+  document.getElementById('today-fte').textContent = d.todayFTE.toFixed(2);
+  document.getElementById('today-labor').textContent = fmtMoney(d.todayLaborAnnual);
+  document.getElementById('p3-hrs').textContent = d.totalP3;
+  document.getElementById('p3-fte').textContent = d.p3FTE.toFixed(2);
+  document.getElementById('p3-labor').textContent = fmtMoney(d.p3LaborAnnual);
+
+  // Tech bars
+  renderTechBars();
+
+  // Chart
+  document.getElementById('net-line').setAttribute('points', d.chartPoints);
+  document.getElementById('net-line').classList.toggle('is-pos', d.netM24 > 0);
+  document.getElementById('area-fill').setAttribute('d', d.areaPath);
+  document.getElementById('area-fill').classList.toggle('area-gain', d.netM24 > 0);
+  document.getElementById('area-fill').classList.toggle('area-loss', d.netM24 <= 0);
+
+  // Break-even marker
+  const beDot = document.getElementById('be-dot');
+  const beLabel = document.getElementById('be-label');
+  if (d.paybackMonth) {
+    const x = 50 + (d.paybackMonth / 24) * 930;
+    beDot.setAttribute('cx', x);
+    beDot.setAttribute('r', 5);
+    beLabel.setAttribute('x', x);
+    beLabel.textContent = `PAYBACK · M${d.paybackMonth.toFixed(1)}`;
+  } else {
+    beDot.setAttribute('r', 0);
+    beLabel.textContent = '';
+  }
+
+  // Endpoint
+  const epLabel = document.getElementById('endpoint-label');
+  epLabel.textContent = fmtMoneyS(d.netM24);
+  epLabel.setAttribute('y', netToY(d.netM24) + 4);
+  epLabel.classList.toggle('is-pos', d.netM24 > 0);
+
+  // Chart conclusion text
+  let conclusion;
+  if (d.netM24 < 0) {
+    conclusion = `At current slider positions, the bet does not pay back within 24 months. Net at M24: <span class="em">${fmtMoneyS(d.netM24)}</span>. Push the rate sliders above baseline to model lift.`;
+  } else if (d.paybackMonth) {
+    conclusion = `At current slider positions, the bet pays back at <span class="em-pos">month ${d.paybackMonth.toFixed(1)}</span> and nets <span class="em-pos">${fmtMoneyS(d.netM24)}</span> by M24.`;
+  } else {
+    conclusion = `At current slider positions, cumulative lift is <span class="em-pos">${fmtMoneyS(d.lift24)}</span>; cost is <span class="em">${fmtMoneyS(d.cost24)}</span>; net <span class="em">${fmtMoneyS(d.netM24)}</span>.`;
+  }
+  document.getElementById('chart-conclusion').innerHTML = conclusion;
+}
+
+function setDelta(id, delta) {
+  const el = document.getElementById(id);
+  el.textContent = fmtPP(delta, true);
+  el.classList.toggle('zero', Math.abs(delta) < 0.05);
+  el.classList.toggle('neg', delta < -0.05);
+  el.style.color = delta > 0.05 ? 'var(--positive)' : (delta < -0.05 ? 'var(--accent)' : 'var(--fg-3)');
+}
+function setFunnelDelta(id, delta) {
+  const el = document.getElementById(id);
+  el.textContent = fmtDeltaCount(delta);
+  el.classList.toggle('zero', Math.abs(delta) < 100);
+  el.style.color = delta > 100 ? 'var(--positive)' : (delta < -100 ? 'var(--accent)' : 'var(--fg-3)');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// TECH SLIDERS + BARS — generated
+// ════════════════════════════════════════════════════════════════════
+function renderTechSliders() {
+  const c = document.getElementById('tech-sliders');
+  c.innerHTML = state.tech.map(t => `
+    <div class="tech-row-slider" data-id="${t.id}">
+      <div class="name">
+        <span>${t.name}${t.note ? `<span class="note">${t.note}</span>` : ''}</span>
+        <span class="vals"><span class="today" id="v-${t.id}-today">${t.today}</span><span class="arrow">→</span><span class="p3" id="v-${t.id}-p3">${t.p3}</span></span>
+      </div>
+      <div class="dual">
+        <span class="lab">TODAY</span>
+        <input type="range" class="today-slider" data-tech="${t.id}" data-mode="today"
+          min="0" max="${t.max}" step="1" value="${t.today}">
+        <span class="lab">PHASE 3</span>
+        <input type="range" class="p3-slider" data-tech="${t.id}" data-mode="p3"
+          min="0" max="${t.max}" step="1" value="${t.p3}">
+      </div>
+    </div>
+  `).join('');
+
+  c.querySelectorAll('input[type=range]').forEach(input => {
+    input.addEventListener('input', (e) => {
+      const id = e.target.dataset.tech;
+      const mode = e.target.dataset.mode;
+      const tech = state.tech.find(t => t.id === id);
+      tech[mode] = parseInt(e.target.value);
+      document.getElementById(`v-${id}-${mode}`).textContent = tech[mode];
+      render();
+    });
+  });
+}
+
+function renderTechBars() {
+  const c = document.getElementById('tech-bars');
+  const maxAcross = Math.max(...state.tech.map(t => Math.max(t.today, t.p3)), 1);
+  c.innerHTML = state.tech.map(t => `
+    <div class="row">
+      <div class="name">${t.name}${t.note ? `<span class="note">${t.note}</span>` : ''}</div>
+      <div class="bars">
+        <div class="bar"><div class="fill today" style="width: ${(t.today / maxAcross * 100).toFixed(1)}%"></div></div>
+        <div class="bar"><div class="fill p3" style="width: ${(t.p3 / maxAcross * 100).toFixed(1)}%"></div></div>
+      </div>
+      <div class="vals"><span class="today-v">${t.today}</span><span class="arrow">→</span><span class="p3-v">${t.p3}</span></div>
+    </div>
+  `).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════════════════════════════════
+document.getElementById('hourly-rate').addEventListener('input', (e) => {
+  state.hourlyRate = parseFloat(e.target.value) || 0;
+  render();
+});
+document.getElementById('rate-trial-start').addEventListener('input', (e) => {
+  state.trialStart = parseFloat(e.target.value);
+  render();
+});
+document.getElementById('rate-trial-paid').addEventListener('input', (e) => {
+  state.trialPaid = parseFloat(e.target.value);
+  render();
+});
+document.getElementById('rate-renewal').addEventListener('input', (e) => {
+  state.renewal = parseFloat(e.target.value);
+  render();
+});
+
+document.querySelectorAll('.topbar .style-toggle button[data-style]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.body.className = document.body.className.replace(/style-\w+/, 'style-' + btn.dataset.style);
+    document.querySelectorAll('.topbar .style-toggle button[data-style]').forEach(b => {
+      b.classList.toggle('on', b === btn);
+    });
+  });
+});
+
+renderTechSliders();
+render();
+</script>
+
+</body>
+</html>
