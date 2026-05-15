@@ -1,20 +1,12 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    WORKSHOP · PANELS, FIELDS, CONTROLS
    ═══════════════════════════════════════════════════════════════════════════
-   Styles for sidebar contents: collapsible panels, form fields, sliders,
-   toggles, and the style/layout pickers. All values from `_workshop.css`
-   tokens — never hardcode hex here.
-
-   FOR LLMs EDITING THIS PROJECT
-   ───────────────────────────────────────────────────────────────────────────
-   - Workshop tokens (`--workshop-*`) come from `./_workshop.css`.
-   - DO NOT use theme tokens (`--bg`, `--fg`, `--accent`) here. Those drive
-     the rendered SHEET, not the editor. The editor must stay stable when
-     the user switches preview themes.
+   All colors and sizes from `_workshop.css` tokens.
+   Font rule: labels/UI → var(--workshop-sans); numbers/values → var(--workshop-mono).
    =========================================================================== */
 
 
-/* ═══ PANELS ═══ */
+/* ═══ PANELS (legacy accordion panels used by Compose / Content) ═══ */
 .pf-panel { border-bottom: 1px solid var(--workshop-rule); }
 
 .pf-panel-header {
@@ -29,15 +21,15 @@
 }
 .pf-panel-header:hover { background: var(--workshop-bg-2); }
 .pf-panel-header .title {
-  font-family: var(--workshop-font);
-  font-size: 9px;
-  letter-spacing: 0.2em;
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--workshop-fg-2);
+  color: var(--workshop-fg-3);
   font-weight: 600;
 }
 .pf-panel-header .chevron {
-  color: var(--workshop-fg-3);
+  color: var(--workshop-fg-4);
   font-size: 10px;
   transition: transform 0.15s;
 }
@@ -58,24 +50,25 @@
   gap: 4px;
 }
 .pf-field label {
-  font-family: var(--workshop-font);
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  letter-spacing: 0.04em;
   color: var(--workshop-fg-3);
+  font-weight: 500;
 }
 .pf-field input[type="text"],
 .pf-field input[type="number"],
 .pf-field textarea {
   background: var(--workshop-bg);
-  border: 1px solid var(--workshop-rule);
+  border: 1px solid var(--workshop-rule-2);
   color: var(--workshop-fg);
-  font-family: var(--workshop-font);
-  font-size: 11px;
+  font-family: var(--workshop-sans);
+  font-size: 12px;
   padding: 6px 8px;
   width: 100%;
   outline: none;
   resize: vertical;
+  border-radius: 3px;
   transition: border-color 0.12s;
 }
 .pf-field input:focus,
@@ -83,31 +76,36 @@
 .pf-field textarea { min-height: 56px; line-height: 1.5; }
 
 
-/* ═══ LOCKED ROW ═══ */
+/* ═══ LOCKED ROW (legacy panels) ═══ */
 .pf-locked-row {
   display: grid;
   grid-template-columns: 1fr auto auto;
   gap: 8px;
   align-items: center;
   padding: 7px 10px;
-  background: var(--workshop-bg-2);
-  border-left: 2px solid var(--workshop-fg-3);
+  background: var(--workshop-bg-3);
+  border-left: 2px solid var(--workshop-fg-4);
 }
 .pf-locked-row .lab {
-  font-family: var(--workshop-font);
-  font-size: 9.5px;
+  font-family: var(--workshop-sans);
+  font-size: 11px;
   color: var(--workshop-fg-2);
+}
+.pf-locked-row .unit {
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  color: var(--workshop-fg-4);
 }
 
 
-/* ═══ SLIDER ═══ */
+/* ═══ SLIDER (global range input style) ═══ */
 input[type="range"] {
   -webkit-appearance: none;
   appearance: none;
   width: 100%;
   height: 3px;
-  background: var(--workshop-rule);
-  border-radius: 0;
+  background: var(--workshop-rule-2);
+  border-radius: 2px;
   outline: none;
   cursor: pointer;
 }
@@ -129,10 +127,10 @@ input[type="range"]::-moz-range-thumb {
 }
 
 
-/* ═══ TECH SLIDER ROW ═══ */
+/* ═══ TECH SLIDER ROW (legacy, used by PanelLabor) ═══ */
 .pf-tech-row {
   padding: 8px 0;
-  border-bottom: 1px solid var(--workshop-rule-2);
+  border-bottom: 1px solid var(--workshop-rule);
 }
 .pf-tech-row:last-child { border-bottom: none; }
 .pf-tech-row .name-row {
@@ -142,8 +140,8 @@ input[type="range"]::-moz-range-thumb {
   margin-bottom: 4px;
 }
 .pf-tech-row .name {
-  font-family: var(--workshop-font);
-  font-size: 10.5px;
+  font-family: var(--workshop-sans);
+  font-size: 11px;
   color: var(--workshop-fg-2);
 }
 .pf-tech-row .name .note {
@@ -152,12 +150,12 @@ input[type="range"]::-moz-range-thumb {
   margin-left: 4px;
 }
 .pf-tech-row .vals {
-  font-family: var(--workshop-font);
+  font-family: var(--workshop-mono);
   font-size: 11px;
   color: var(--workshop-accent);
-  font-weight: 600;
+  font-weight: 500;
 }
-.pf-tech-row .vals .arrow { color: var(--workshop-fg-3); margin: 0 3px; }
+.pf-tech-row .vals .arrow { color: var(--workshop-fg-4); margin: 0 3px; }
 .pf-tech-row .vals .p3 { color: var(--workshop-positive); }
 .pf-tech-row .dual {
   display: grid;
@@ -166,14 +164,13 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
 }
 .pf-tech-row .dual .lab {
-  font-family: var(--workshop-font);
-  font-size: 8px;
-  letter-spacing: 0.12em;
+  font-family: var(--workshop-sans);
+  font-size: 9px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--workshop-fg-3);
   text-align: right;
 }
-/* "Phase 3" (forward-looking) sliders get a semantic-positive thumb */
 .pf-tech-row .dual input[type="range"].p3-slider::-webkit-slider-thumb {
   background: var(--workshop-positive);
   box-shadow: 0 0 0 1px var(--workshop-positive);
@@ -189,18 +186,19 @@ input[type="range"]::-moz-range-thumb {
   align-items: center;
   justify-content: space-between;
   padding: 6px 0;
-  border-bottom: 1px solid var(--workshop-rule-2);
+  border-bottom: 1px solid var(--workshop-rule);
 }
 .pf-block-toggle:last-child { border-bottom: none; }
 .pf-block-toggle .name {
-  font-family: var(--workshop-font);
-  font-size: 10px;
+  font-family: var(--workshop-sans);
+  font-size: 11px;
   color: var(--workshop-fg-2);
 }
 .pf-block-toggle .name.required { color: var(--workshop-fg-3); }
 .pf-block-toggle .name .locked-tag {
   color: var(--workshop-fg-4);
   margin-left: 4px;
+  font-size: 10px;
 }
 
 /* Toggle switch */
@@ -209,23 +207,22 @@ input[type="range"]::-moz-range-thumb {
 .pf-toggle .slider {
   position: absolute;
   inset: 0;
-  background: var(--workshop-rule);
+  background: var(--workshop-rule-2);
   cursor: pointer;
   transition: background 0.15s;
+  border-radius: 9px;
 }
 .pf-toggle .slider::before {
   content: '';
   position: absolute;
   width: 12px; height: 12px;
   left: 3px; bottom: 3px;
-  background: var(--workshop-fg-3);
-  transition: transform 0.15s, background 0.15s;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.15s;
 }
-.pf-toggle input:checked + .slider { background: var(--workshop-accent-bg-active); }
-.pf-toggle input:checked + .slider::before {
-  transform: translateX(14px);
-  background: var(--workshop-accent);
-}
+.pf-toggle input:checked + .slider { background: var(--workshop-accent); }
+.pf-toggle input:checked + .slider::before { transform: translateX(14px); }
 
 
 /* ═══ STYLE / LAYOUT PICKERS ═══ */
@@ -235,11 +232,12 @@ input[type="range"]::-moz-range-thumb {
   gap: 6px;
 }
 .pf-picker-group .label {
-  font-family: var(--workshop-font);
-  font-size: 9px;
-  letter-spacing: 0.18em;
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--workshop-fg-3);
+  font-weight: 500;
 }
 .pf-picker-group .options {
   display: flex;
@@ -248,13 +246,13 @@ input[type="range"]::-moz-range-thumb {
 }
 .pf-picker-group button {
   background: transparent;
-  border: 1px solid var(--workshop-rule);
-  color: var(--workshop-fg-2);
-  font-family: var(--workshop-font);
-  font-size: 9.5px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  padding: 4px 9px;
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg-3);
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 3px;
   cursor: pointer;
   transition: all 0.1s;
 }
@@ -268,3 +266,280 @@ input[type="range"]::-moz-range-thumb {
   border-color: var(--workshop-accent);
   font-weight: 600;
 }
+
+
+/* ═══ WORKSHOP LEFT PANEL ═══ */
+
+.wl-section {
+  border-bottom: 1px solid var(--workshop-rule);
+}
+.wl-section-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 11px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+.wl-section-hdr:hover { background: var(--workshop-bg-2); }
+.wl-section-title {
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-3);
+  font-weight: 600;
+}
+.wl-chevron {
+  font-size: 13px;
+  color: var(--workshop-fg-4);
+  transition: transform 0.15s;
+  display: inline-block;
+}
+.wl-chevron.open { transform: rotate(90deg); }
+.wl-section-body {
+  padding: 10px 16px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Locked stats */
+.wl-locked-stat-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--workshop-rule);
+}
+.wl-locked-stat-row:last-of-type { border-bottom: none; }
+.wl-locked-pill {
+  font-family: var(--workshop-mono);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--workshop-fg);
+  min-width: 52px;
+}
+.wl-locked-label {
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  color: var(--workshop-fg-3);
+  flex: 1;
+}
+.wl-locked-badge {
+  font-family: var(--workshop-sans);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-4);
+  border: 1px solid var(--workshop-rule-2);
+  padding: 1px 6px;
+  border-radius: 2px;
+}
+
+/* Cost inputs grid */
+.wl-cost-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 4px;
+  padding-top: 4px;
+  border-top: 1px solid var(--workshop-rule);
+}
+.wl-cost-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.wl-cost-label {
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  color: var(--workshop-fg-3);
+  flex: 1;
+}
+.wl-cost-val {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.wl-cost-val input {
+  background: var(--workshop-bg-3);
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg);
+  font-family: var(--workshop-mono);
+  font-size: 11px;
+  padding: 3px 7px;
+  width: 76px;
+  text-align: right;
+  outline: none;
+  border-radius: 3px;
+}
+.wl-cost-val input:focus { border-color: var(--workshop-accent); }
+.wl-cost-unit {
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  color: var(--workshop-fg-4);
+  width: 12px;
+}
+
+/* Labor section */
+.wl-labor-summary {
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  color: var(--workshop-fg-3);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 10px;
+  background: var(--workshop-bg-3);
+  border-left: 2px solid var(--workshop-rule-2);
+  border-radius: 0 3px 3px 0;
+  margin-bottom: 2px;
+}
+.wl-positive { color: var(--workshop-positive); font-weight: 500; }
+.wl-rate-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.wl-rate-label {
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  color: var(--workshop-fg-4);
+}
+.wl-rate-input {
+  background: var(--workshop-bg);
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg);
+  font-family: var(--workshop-mono);
+  font-size: 11px;
+  padding: 3px 7px;
+  width: 56px;
+  text-align: right;
+  outline: none;
+  border-radius: 3px;
+}
+.wl-rate-input:focus { border-color: var(--workshop-accent); }
+
+/* Tech rows */
+.wl-tech-row {
+  padding: 7px 0;
+  border-bottom: 1px solid var(--workshop-rule);
+}
+.wl-tech-row:last-child { border-bottom: none; }
+.wl-tech-name-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 5px;
+}
+.wl-tech-name {
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  color: var(--workshop-fg-2);
+}
+.wl-tech-note {
+  font-size: 10px;
+  color: var(--workshop-fg-4);
+  margin-left: 4px;
+}
+.wl-tech-vals {
+  font-family: var(--workshop-mono);
+  font-size: 11px;
+  color: var(--workshop-accent);
+  font-weight: 500;
+}
+.wl-arrow { color: var(--workshop-fg-4); margin: 0 3px; }
+.wl-p3 { color: var(--workshop-positive); }
+
+.wl-dual {
+  display: grid;
+  grid-template-columns: 28px 1fr 28px 1fr;
+  gap: 5px;
+  align-items: center;
+}
+.wl-dual-lab {
+  font-family: var(--workshop-sans);
+  font-size: 9px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-4);
+  text-align: right;
+}
+.wl-dual input[type="range"].p3-slider::-webkit-slider-thumb {
+  background: var(--workshop-positive);
+  box-shadow: 0 0 0 1px var(--workshop-positive);
+}
+.wl-dual input[type="range"].p3-slider::-moz-range-thumb {
+  background: var(--workshop-positive);
+}
+
+/* Rate slider rows */
+.wl-rate-slider-row {
+  padding: 11px 0;
+  border-bottom: 1px solid var(--workshop-rule);
+}
+.wl-rate-slider-row:last-child { border-bottom: none; }
+.wl-rs-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+.wl-rs-label {
+  font-family: var(--workshop-sans);
+  font-size: 12px;
+  color: var(--workshop-fg-2);
+  font-weight: 500;
+}
+.wl-rs-note {
+  font-size: 10px;
+  color: var(--workshop-fg-4);
+  margin-left: 5px;
+  font-weight: 400;
+}
+.wl-rs-val {
+  font-family: var(--workshop-mono);
+  font-size: 13px;
+  color: var(--workshop-accent);
+  font-weight: 500;
+}
+
+/* Slider with baseline tick */
+.wl-slider-wrap {
+  position: relative;
+}
+.wl-baseline-tick {
+  position: absolute;
+  left: var(--bl-pos);
+  top: -5px;
+  width: 1px;
+  height: 12px;
+  background: var(--workshop-fg-4);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Marginal impact line */
+.wl-rs-impact {
+  margin-top: 6px;
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.wl-impact-at-baseline { color: var(--workshop-fg-4); }
+.wl-impact-num {
+  font-family: var(--workshop-mono);
+  font-weight: 500;
+  font-size: 12px;
+}
+.wl-impact-num.positive { color: var(--workshop-positive); }
+.wl-impact-num.negative { color: var(--workshop-negative); }
+.wl-impact-label { color: var(--workshop-fg-3); }

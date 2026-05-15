@@ -21,12 +21,28 @@ import { THEMES } from '../themes/registry'
 import { LAYOUTS } from '../layouts/registry'
 
 // ─── CSS BUNDLES (imported as raw strings by Vite) ──────────────────────────
-// Imported as raw strings at build time via Vite's ?raw suffix.
-// Each file is inlined into the exported HTML so it runs standalone.
+// Each file must be imported individually with ?raw — Vite gives the literal
+// file text, so @import chains inside index.css would NOT be followed.
+// We concatenate in dependency order so the exported HTML is self-contained.
 
-import themesCSS  from '../themes/index.css?raw'
-import layoutsCSS from '../layouts/layouts.css?raw'
-import blocksCSS  from '../blocks/blocks.css?raw'
+import contractCSS      from '../themes/_contract.css?raw'
+import baseCSS          from '../themes/_base.css?raw'
+import cleanCSS         from '../themes/clean.css?raw'
+import editorialCSS     from '../themes/editorial.css?raw'
+import terminalCSS      from '../themes/terminal.css?raw'
+import modernCSS        from '../themes/modern.css?raw'
+import institutionalCSS from '../themes/institutional.css?raw'
+import paperCSS         from '../themes/paper.css?raw'
+import brutalistCSS     from '../themes/brutalist.css?raw'
+import bentoCSS         from '../themes/bento.css?raw'
+import layoutsCSS       from '../layouts/layouts.css?raw'
+
+// Assembled: defaults → base components → per-theme token overrides
+const themesCSS = [
+  contractCSS, baseCSS,
+  cleanCSS, editorialCSS, terminalCSS, modernCSS,
+  institutionalCSS, paperCSS, brutalistCSS, bentoCSS,
+].join('\n')
 
 
 // ─── FONT LOADING ───────────────────────────────────────────────────────────
@@ -365,7 +381,6 @@ export function generateOnePager(project: ProFormaProject): string {
 ${STUDIO_BAR_CSS}
 ${themesCSS}
 ${layoutsCSS}
-${blocksCSS}
   </style>
 </head>
 <body>

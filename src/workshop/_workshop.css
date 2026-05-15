@@ -1,78 +1,59 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    WORKSHOP CHROME · TOKEN CONTRACT
    ═══════════════════════════════════════════════════════════════════════════
-   This file defines the design tokens for the WORKSHOP UI (the editor
-   itself — topbar, sidebar panels, controls). It is INTENTIONALLY SEPARATE
-   from the theme tokens in `../themes/_contract.css`.
+   Design tokens for the workshop UI. Intentionally separate from the export
+   theme tokens in `../themes/_contract.css`.
 
-   WHY SEPARATE NAMESPACES (`--workshop-*` vs. `--bg`/`--fg`/`--accent`):
-   The editor and the preview live side-by-side. If the editor inherited
-   theme tokens, switching the preview to a light theme would also turn
-   the editor white — distracting and inconsistent. The editor is a tool,
-   not a document. It should stay visually stable regardless of which
-   theme the user is previewing.
-
-   ───────────────────────────────────────────────────────────────────────────
-   FOR LLMs EDITING THIS PROJECT
-   ───────────────────────────────────────────────────────────────────────────
-   To restyle the editor (e.g. add a light mode for the workshop itself):
-     1. Add a new wrapper class to `pf-shell` in `App.svelte`
-        (e.g. `class="pf-shell workshop-light"`).
-     2. Override these tokens under `.workshop-light` in this file.
-   To change a single editor color: edit a token below — it propagates.
-   Never hardcode hex in `app.css` or `workshop.css`. Use `var(--workshop-*)`.
-
-   The workshop currently has ONE mode (dark). Tokens are defined at :root
-   so they're globally available.
+   To restyle the workshop: edit tokens here — they propagate everywhere.
+   Never hardcode hex in workshop.css or component styles.
    =========================================================================== */
 
 :root {
 
-  /* ─── SURFACE ──────────────────────────────────────────────────────────
-     Editor backgrounds, dark to slightly lighter. Topbar and sidebar share
-     the deepest tone; preview canvas is one step lighter so the rendered
-     sheet has visual breathing room.                                     */
-  --workshop-bg:        #0A0A0E;   /* topbar, sidebar */
-  --workshop-bg-canvas: #16161C;   /* preview canvas backdrop */
-  --workshop-bg-2:      #111118;   /* hover state for panel headers */
-  --workshop-bg-3:      #1E1E26;   /* separators inside panels */
+  /* ─── SURFACE ──────────────────────────────────────────────────────────── */
+  --workshop-bg:        #FFFFFF;    /* topbar, left panel */
+  --workshop-bg-canvas: #F3F4F6;    /* center + preview canvas */
+  --workshop-bg-2:      #F9FAFB;    /* section cards, elevated surfaces */
+  --workshop-bg-3:      #F3F4F6;    /* inner cells, code blocks */
 
-  /* ─── TEXT ─────────────────────────────────────────────────────────────
-     Workshop text scale. Primary = labels you're meant to read. Secondary
-     = field labels and metadata. Tertiary = ghosted state, disabled.    */
-  --workshop-fg:        #E8E1CC;   /* input values, primary text */
-  --workshop-fg-2:      #B5B5BD;   /* panel titles, active labels */
-  --workshop-fg-3:      #6D6D78;   /* secondary labels, hints */
-  --workshop-fg-4:      #3A3A44;   /* "locked" tags, disabled */
+  /* ─── TEXT ─────────────────────────────────────────────────────────────── */
+  --workshop-fg:        #111827;    /* primary text, key numbers */
+  --workshop-fg-2:      #374151;    /* panel titles, active labels */
+  --workshop-fg-3:      #6B7280;    /* secondary labels, section heads */
+  --workshop-fg-4:      #9CA3AF;    /* locked tags, disabled, ghost */
 
-  /* ─── BORDERS & RULES ──────────────────────────────────────────────────
-     Hairlines between panels, around inputs, etc.                        */
-  --workshop-rule:      #25252E;
-  --workshop-rule-2:    #1E1E26;
+  /* ─── BORDERS ───────────────────────────────────────────────────────────── */
+  --workshop-rule:      #E5E7EB;
+  --workshop-rule-2:    #D1D5DB;
 
-  /* ─── ACCENT ───────────────────────────────────────────────────────────
-     The workshop's brand color — used for focus rings, active buttons,
-     slider thumbs. Currently chartreuse to echo the original Terminal
-     theme. To rebrand the editor, this is the single value to change.   */
-  --workshop-accent:           #C8FF00;
-  --workshop-accent-fg:        #0A0A0E;   /* text color on accent buttons */
-  --workshop-accent-bg-active: #1E3000;   /* track color for "on" toggles */
+  /* ─── ACCENT ────────────────────────────────────────────────────────────── */
+  --workshop-accent:           #E05C20;   /* orange — matches ux-merged-v2 */
+  --workshop-accent-fg:        #FFFFFF;
+  --workshop-accent-bg-active: rgba(224,92,32,0.08);
 
-  /* ─── STATE COLORS ─────────────────────────────────────────────────────
-     For phase-3 sliders, error states, etc. Kept separate from accent
-     because they convey semantic meaning, not branding.                  */
-  --workshop-positive:  #74B198;   /* "phase 3" / forward-looking inputs */
+  /* ─── SEMANTIC ──────────────────────────────────────────────────────────── */
+  --workshop-positive:  #16A34A;    /* phase-3 / forward-looking / gains */
+  --workshop-negative:  #DC2626;
 
-  /* ─── TYPOGRAPHY ───────────────────────────────────────────────────────
-     The workshop uses mono everywhere — communicates "tool, not document."
-     Sizes are intentionally small; the editor packs a lot of info into
-     limited sidebar real estate.                                         */
-  --workshop-font: 'IBM Plex Mono', ui-monospace, monospace;
+  /* ─── SCENARIO COLORS ───────────────────────────────────────────────────── */
+  --workshop-sc-cons:      #2563EB;
+  --workshop-sc-cons-soft: rgba(37,99,235,0.10);
+  --workshop-sc-mid:       #E05C20;
+  --workshop-sc-mid-soft:  rgba(224,92,32,0.10);
+  --workshop-sc-opt:       #16A34A;
+  --workshop-sc-opt-soft:  rgba(22,163,74,0.10);
 
-  /* ─── LAYOUT ───────────────────────────────────────────────────────────
-     Workshop layout dimensions. Sidebar width is the main "feel" control —
-     wider = more room for inputs, narrower = more room for preview.     */
+  /* ─── TYPOGRAPHY ─────────────────────────────────────────────────────────
+     Two-font system matching ux-merged-v2:
+       sans = Inter  for labels, UI chrome, narrative text
+       mono = DM Mono for numbers, values, rates, percentages              */
+  --workshop-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --workshop-mono: 'DM Mono', 'JetBrains Mono', monospace;
+
+  /* ─── LAYOUT ─────────────────────────────────────────────────────────────
+     Three-column shell: left-inputs | bet-sheet | preview-panel            */
   --workshop-topbar-h:    48px;
-  --workshop-sidebar-w:   380px;
-  --workshop-canvas-pad:  28px;
+  --workshop-left-w:      340px;
+  --workshop-preview-w:   360px;
+  --workshop-canvas-pad:  24px;
 }

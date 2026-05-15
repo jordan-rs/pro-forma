@@ -124,7 +124,11 @@ function computeScenarioResults(
     const leverage = [sc.trialStartDelta, sc.trialPaidDelta, sc.renewalDelta]
       .map(d => (d >= 0 ? `+${d}pp` : `${d}pp`))
       .join(' / ')
-    return { id: sc.id, name: sc.name, cssModifier: sc.cssModifier, paybackMonth, m24Net, leverage }
+    const chartPoints: ChartPoint[] = []
+    for (let t = 0; t <= 24; t += 0.5) {
+      chartPoints.push({ month: t, net: cumulativeLiftAt(t, lift) - cumulativeCostAt(t, costAddedY1, costAddedY2) })
+    }
+    return { id: sc.id, name: sc.name, cssModifier: sc.cssModifier, paybackMonth, m24Net, leverage, chartPoints }
   })
 }
 
@@ -186,6 +190,12 @@ export function compute(project: ProFormaProject): ComputedOutputs {
   // Scenarios
   const scenarioResults = computeScenarioResults(project, costAddedY1, costAddedY2)
 
+  const sliderImpacts = {
+    trialStart: lift24 - cumulativeLiftAt(24, annualLiftFromRates(project, b.trialStart, trialPaid, renewal)),
+    trialPaid:  lift24 - cumulativeLiftAt(24, annualLiftFromRates(project, trialStart, b.trialPaid, renewal)),
+    renewal:    lift24 - cumulativeLiftAt(24, annualLiftFromRates(project, trialStart, trialPaid, b.renewal)),
+  }
+
   return {
     costAddedY1, costAddedY2, costAdded24mo,
     laborByType,
@@ -197,5 +207,6 @@ export function compute(project: ProFormaProject): ComputedOutputs {
     annualLift, lift24, netM24, paybackMonth,
     chartPoints,
     scenarioResults,
+    sliderImpacts,
   }
 }

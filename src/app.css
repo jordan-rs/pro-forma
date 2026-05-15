@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════════════════════════════════
    WORKSHOP · SHELL
    ═══════════════════════════════════════════════════════════════════════════
-   Top-level layout for the editor (topbar, sidebar, preview canvas).
-   All colors and sizes come from `./workshop/_workshop.css` tokens — never
-   hardcode hex values here. To rebrand the editor, edit tokens, not this file.
+   Top-level layout for the editor (topbar, left-input-panel, workshop-view,
+   preview-panel). All colors and sizes come from `./workshop/_workshop.css`
+   tokens — never hardcode hex values here.
    =========================================================================== */
 
 @import './workshop/_workshop.css';
@@ -16,14 +16,14 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
 .pf-shell {
   display: grid;
   grid-template-rows: var(--workshop-topbar-h) 1fr;
-  grid-template-columns: var(--workshop-sidebar-w) 1fr;
+  grid-template-columns: var(--workshop-left-w) 1fr var(--workshop-preview-w);
   grid-template-areas:
-    "topbar  topbar"
-    "sidebar preview";
+    "topbar  topbar   topbar"
+    "left    workshop preview";
   height: 100vh;
   background: var(--workshop-bg);
   color: var(--workshop-fg-2);
-  font-family: var(--workshop-font);
+  font-family: var(--workshop-sans);
 }
 
 /* ─── TOPBAR ─── */
@@ -35,38 +35,39 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
   align-items: center;
   padding: 0 20px;
   gap: 16px;
+  font-family: var(--workshop-sans);
   font-size: 11px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.06em;
   color: var(--workshop-fg-3);
   z-index: 10;
+  box-shadow: 0 1px 0 var(--workshop-rule);
 }
 .pf-topbar .brand {
   color: var(--workshop-accent);
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+  text-transform: none;
 }
-.pf-topbar .sep { color: var(--workshop-rule); }
+.pf-topbar .sep { color: var(--workshop-rule-2); }
 
 /* Topbar action buttons */
 .pf-topbar-btn {
   background: transparent;
-  border: 1px solid var(--workshop-rule);
+  border: 1px solid var(--workshop-rule-2);
   color: var(--workshop-fg-2);
-  font-family: var(--workshop-font);
-  font-size: 9.5px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  padding: 4px 10px;
+  font-family: var(--workshop-sans);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 5px 12px;
   cursor: pointer;
+  border-radius: 4px;
   transition: all 0.1s;
 }
 .pf-topbar-btn:hover {
   border-color: var(--workshop-accent);
   color: var(--workshop-fg);
 }
-/* Primary action (Export). Single class, no inline style overrides needed. */
 .pf-topbar-btn.primary {
   border-color: var(--workshop-accent);
   color: var(--workshop-accent);
@@ -75,17 +76,105 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
   background: var(--workshop-accent);
   color: var(--workshop-accent-fg);
 }
+.pf-topbar-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
 
-/* ─── SIDEBAR & PREVIEW ─── */
-.pf-sidebar {
-  grid-area: sidebar;
+/* ─── LEFT INPUT PANEL ─── */
+.pf-left {
+  grid-area: left;
   overflow-y: auto;
   border-right: 1px solid var(--workshop-rule);
   background: var(--workshop-bg);
 }
-.pf-preview {
-  grid-area: preview;
+
+/* ─── WORKSHOP BET SHEET ─── */
+.pf-workshop {
+  grid-area: workshop;
   overflow-y: auto;
   background: var(--workshop-bg-canvas);
   padding: var(--workshop-canvas-pad);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ─── PREVIEW PANEL ─── */
+.pf-preview-panel {
+  grid-area: preview;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-left: 1px solid var(--workshop-rule);
+  background: var(--workshop-bg-canvas);
+  display: flex;
+  flex-direction: column;
+}
+.pf-preview-label {
+  padding: 9px 14px;
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-3);
+  border-bottom: 1px solid var(--workshop-rule);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pf-preview-label .pvl-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--workshop-accent);
+  flex-shrink: 0;
+}
+.pf-compose-bar {
+  border-bottom: 1px solid var(--workshop-rule);
+  padding: 6px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
+  background: var(--workshop-bg);
+}
+.pcb-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+.pcb-btn {
+  background: transparent;
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg-3);
+  font-family: var(--workshop-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  padding: 3px 7px;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.1s;
+  white-space: nowrap;
+}
+.pcb-btn:hover {
+  border-color: var(--workshop-accent);
+  color: var(--workshop-fg);
+}
+.pcb-btn.active {
+  background: var(--workshop-accent);
+  border-color: var(--workshop-accent);
+  color: #fff;
+  font-weight: 600;
+}
+
+.pf-preview-zoom {
+  /* Render the sheet at its natural 1120px width, then zoom down to fit   */
+  /* the ~360px panel. Without explicit width, the sheet collapses to the  */
+  /* panel width (360px) then zooms further down to a tiny column.         */
+  width: 1120px;
+  zoom: 0.32;   /* 1120 × 0.32 = 358px displayed ≈ 360px panel          */
+  flex-shrink: 0;
 }

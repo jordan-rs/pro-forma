@@ -165,6 +165,7 @@ export interface ScenarioResult {
   paybackMonth: number | null
   m24Net: number
   leverage: string      // formatted "+0.5pp / +1pp / +2pp"
+  chartPoints: ChartPoint[]
 }
 
 export interface ChartPoint {
@@ -202,4 +203,7 @@ export interface ComputedOutputs {
 
   // Scenarios (from scenario definitions)
   scenarioResults: ScenarioResult[]
+
+  // Per-slider isolated 24mo lift contribution vs baseline
+  sliderImpacts: { trialStart: number; trialPaid: number; renewal: number }
 }
