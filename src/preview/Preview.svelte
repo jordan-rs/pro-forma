@@ -116,6 +116,16 @@
     }
   }
 
+  function askProps() {
+    const a = $project.content.ask
+    return {
+      recommendation: a.recommendation,
+      ask:            a.ask,
+      whatYesUnlocks: a.whatYesUnlocks,
+      costOfDelay:    a.costOfDelay,
+    }
+  }
+
   function footerProps() {
     return { notes: $project.content.footer }
   }
@@ -129,6 +139,7 @@
     scenarios: scenariosProps,
     position:  positionProps,
     execution: executionProps,
+    ask:       askProps,
     footer:    footerProps,
   }
 </script>

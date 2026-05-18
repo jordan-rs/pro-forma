@@ -90,6 +90,12 @@ export interface ProjectContent {
     meta: string
     phases: [ExecutionPhase, ExecutionPhase, ExecutionPhase]
   }
+  ask: {
+    recommendation: string   // "We recommend proceeding."
+    ask: string              // what approval/action is sought
+    whatYesUnlocks: string   // concrete outcomes of a yes decision
+    costOfDelay: string      // what waiting costs
+  }
   footer: string
 }
 

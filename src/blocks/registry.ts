@@ -7,6 +7,7 @@ import Chart     from './Chart.svelte'
 import Scenarios from './Scenarios.svelte'
 import Position  from './Position.svelte'
 import Execution from './Execution.svelte'
+import Ask       from './Ask.svelte'
 import Footer    from './Footer.svelte'
 
 export interface BlockDefinition {
@@ -27,6 +28,7 @@ export const BLOCKS: BlockDefinition[] = [
   { id: 'scenarios', label: 'Scenarios', required: false, component: Scenarios },
   { id: 'position',  label: 'Position',  required: false, component: Position },
   { id: 'execution', label: 'Execution', required: false, component: Execution },
+  { id: 'ask',       label: 'Decision',  required: false, component: Ask },
   { id: 'footer',    label: 'Footer',    required: true,  component: Footer },
 ]
 

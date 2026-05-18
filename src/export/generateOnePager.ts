@@ -335,6 +335,28 @@ function renderExecution(p: ProFormaProject): string {
     </div>`
 }
 
+function renderAsk(p: ProFormaProject): string {
+  const a = p.content.ask
+  return `
+    <div class="c-ask">
+      <div class="ca-rec">${esc(a.recommendation)}</div>
+      <div class="ca-grid">
+        <div class="ca-item">
+          <div class="ca-label">What we're asking for</div>
+          <div class="ca-body">${esc(a.ask)}</div>
+        </div>
+        <div class="ca-item">
+          <div class="ca-label">What yes unlocks</div>
+          <div class="ca-body">${esc(a.whatYesUnlocks)}</div>
+        </div>
+        <div class="ca-item">
+          <div class="ca-label">Cost of delay</div>
+          <div class="ca-body">${esc(a.costOfDelay)}</div>
+        </div>
+      </div>
+    </div>`
+}
+
 function renderFooter(p: ProFormaProject): string {
   return `
     <div class="c-footer">
@@ -354,6 +376,7 @@ const RENDERERS: Record<string, (p: ProFormaProject, c: ComputedOutputs) => stri
   scenarios: (p, c) => renderScenarios(p, c),
   position:  (p, c) => renderPosition(p, c),
   execution: (p)    => renderExecution(p),
+  ask:       (p)    => renderAsk(p),
   footer:    (p)    => renderFooter(p),
 }
 

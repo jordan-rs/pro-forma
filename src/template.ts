@@ -122,6 +122,13 @@ export const defaultProject: ProFormaProject = {
       ],
     },
 
+    ask: {
+      recommendation: 'We recommend proceeding.',
+      ask: 'Seeking approval to fund phases 1–2 (M0–M9): RC test environment, paywall migration, and live dual-authority operation. Total Y1 cost is locked at +$174K above current run rate.',
+      whatYesUnlocks: 'Paywall ownership moves to marketing by M3. Trial conversion experiments begin M5. Engineering hours redeploy to roadmap work from M12 onward — roughly 0.8 FTE freed at steady state.',
+      costOfDelay: 'Each quarter of delay foregoes ~$150K in lift at mid-case rates while maintaining current engineering load. The legacy C# service sunset cannot begin until RC is live.',
+    },
+
     footer: 'Funnel: Ramsey internal data, last 4 quarters · 2M acquisitions × 9.5% × 60% × 47% × $79. Combined run-rates: Conservative $804K/yr (+$474K / +$150K / +$180K per lever), Mid $1.76M/yr, Optimistic $3.19M/yr. RC case studies cite 42–81% lift; modeled 5–20% relative per lever. Cost: Y1 +$174K, Y2 +$201K · RC fee $163K Y1 / $232K Y2+ per order form 9 Apr 2026. FTE = 160 hrs/mo at $150K/yr loaded; ~0.8 FTE freed = current ~1.4 FTE → ~0.6 FTE in Y2. Recurly off the table.',
   },
 

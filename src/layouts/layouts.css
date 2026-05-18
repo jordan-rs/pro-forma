@@ -76,3 +76,189 @@
 .style-brutalist .c-headline {
   padding: 20px 24px;
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYOUT: NARRATIVE — Decision Brief
+   ═══════════════════════════════════════════════════════════════════════════
+   Four-act structure optimized for comprehension, not completeness.
+
+   Act I   — THE BET         (.c-headline)
+   Act II  — WHY IT WORKS    (.c-funnel)
+   Act III — WHEN WE KNOW    (.c-chart + .c-scenarios)
+   Act IV  — THE DECISION    (.c-ask)
+
+   Act labels are injected via CSS ::before so no HTML change is needed.
+   The heavy lifting is in the typography scale and act separators.
+   =========================================================================== */
+
+.layout-narrative .pf-sheet-main {
+  display: flex;
+  flex-direction: column;
+  padding: 40px 56px 56px;
+  gap: 0;
+  max-width: 1120px;
+}
+
+/* ─── Header: quiet metadata, not a section ─── */
+.layout-narrative .c-header {
+  padding-bottom: 28px;
+  border-bottom: none;
+  font-size: 9px;
+  opacity: 0.6;
+}
+
+/* ─── Act I: THE BET ─── */
+.layout-narrative .c-headline {
+  padding: 32px 0 52px;
+  border-bottom: 1.5px solid var(--rule-2);
+}
+.layout-narrative .c-headline::before {
+  content: "THE BET";
+  display: block;
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.layout-narrative .c-headline h1 {
+  font-size: 88px;
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  margin-bottom: 28px;
+}
+.layout-narrative .c-headline .deck {
+  font-size: 17px;
+  line-height: 1.65;
+  max-width: 660px;
+  color: var(--fg-2);
+  margin: 0;
+}
+
+/* Summary cards suppressed — bet terms live in the thesis, not a grid */
+.layout-narrative .c-summary { display: none; }
+
+/* ─── Act II: WHY IT WORKS ─── */
+.layout-narrative .c-funnel {
+  padding: 48px 0 44px;
+  border-bottom: 1.5px solid var(--rule-2);
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+}
+.layout-narrative .c-funnel::before {
+  content: "WHY IT WORKS";
+  display: block;
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.layout-narrative .c-funnel .head { display: none; }
+
+/* ─── Act III: WHEN WE KNOW ─── */
+.layout-narrative .c-chart {
+  padding: 48px 0 16px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.layout-narrative .c-chart::before {
+  content: "WHEN WE KNOW";
+  display: block;
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+/* Chart conclusion becomes the section's lead statement */
+.layout-narrative .c-chart .head .t {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.layout-narrative .c-chart .head .conclusion {
+  font-size: 14px;
+  color: var(--fg-2);
+  margin-bottom: 4px;
+}
+
+/* Scenarios: compact row below chart, no section header */
+.layout-narrative .c-scenarios {
+  padding: 16px 0 44px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1.5px solid var(--rule-2);
+}
+.layout-narrative .c-scenarios .head { display: none; }
+.layout-narrative .c-scenarios .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.layout-narrative .c-scenarios .sc {
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+.layout-narrative .c-scenarios .sc:not(:last-child) { border-right: none; }
+.layout-narrative .c-scenarios .sc:not(:last-child) { margin-right: 0; }
+
+/* Position and Execution are operational detail — suppressed in narrative */
+.layout-narrative .c-position  { display: none; }
+.layout-narrative .c-execution { display: none; }
+
+/* ─── Act IV: THE DECISION ─── */
+.layout-narrative .c-ask {
+  padding: 48px 0 0;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+}
+.layout-narrative .c-ask::before {
+  content: "THE DECISION";
+  display: block;
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.36em;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+.layout-narrative .c-ask .ca-rec {
+  font-size: 42px;
+  color: var(--fg);
+  margin-bottom: 32px;
+  letter-spacing: -0.025em;
+}
+.layout-narrative .c-ask .ca-grid {
+  border-top: var(--rule-width) solid var(--rule-2);
+  padding-top: 24px;
+  gap: 32px;
+}
+.layout-narrative .c-ask .ca-label {
+  font-size: 8px;
+  letter-spacing: 0.28em;
+  margin-bottom: 10px;
+}
+.layout-narrative .c-ask .ca-body {
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* ─── Footer ─── */
+.layout-narrative .c-footer {
+  margin-top: 48px;
+  border-top: 1px solid var(--rule);
+}
