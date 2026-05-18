@@ -1,0 +1,483 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   CANVAS CHROME STYLES
+   Uses --workshop-* tokens only — never bleeds into export theme namespace.
+   =========================================================================== */
+
+.canvas-shell {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  grid-template-rows: 48px 1fr;
+  grid-template-areas:
+    "sidebar toolbar"
+    "sidebar canvas";
+  height: 100%;
+  background: var(--workshop-bg-canvas);
+  font-family: var(--workshop-sans);
+  color: var(--workshop-fg);
+}
+
+/* ─── TOOLBAR ────────────────────────────────────────────────────────────── */
+
+.canvas-toolbar {
+  grid-area: toolbar;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  background: var(--workshop-bg);
+  border-bottom: 1px solid var(--workshop-rule);
+  border-left: 1px solid var(--workshop-rule);
+}
+
+.canvas-toolbar .spacer { flex: 1; }
+
+.ctb-zoom {
+  font: 12px/1 var(--workshop-mono);
+  color: var(--workshop-fg-3);
+  min-width: 48px;
+  text-align: center;
+}
+
+.ctb-btn {
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--workshop-rule-2);
+  border-radius: 4px;
+  background: var(--workshop-bg);
+  color: var(--workshop-fg-2);
+  font: 12px/1 var(--workshop-sans);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.1s;
+}
+.ctb-btn:hover { background: var(--workshop-bg-2); }
+.ctb-btn.primary {
+  background: var(--workshop-accent);
+  color: var(--workshop-accent-fg);
+  border-color: var(--workshop-accent);
+}
+.ctb-btn.primary:hover { opacity: 0.9; }
+
+/* ─── SIDEBAR ────────────────────────────────────────────────────────────── */
+
+.canvas-sidebar {
+  grid-area: sidebar;
+  display: flex;
+  flex-direction: column;
+  background: var(--workshop-bg);
+  border-right: 1px solid var(--workshop-rule);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.csb-section {
+  padding: 12px 12px 8px;
+  border-bottom: 1px solid var(--workshop-rule);
+}
+
+.csb-section-title {
+  font: 500 11px/1 var(--workshop-sans);
+  color: var(--workshop-fg-3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.csb-block-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  padding: 7px 8px;
+  margin-bottom: 4px;
+  border: 1px solid var(--workshop-rule);
+  border-radius: 6px;
+  background: var(--workshop-bg-2);
+  cursor: grab;
+  text-align: left;
+  transition: border-color 0.1s, background 0.1s;
+}
+.csb-block-chip:hover {
+  border-color: var(--workshop-accent);
+  background: var(--workshop-accent-bg-active);
+}
+.csb-block-chip:active { cursor: grabbing; }
+
+.csb-chip-label {
+  font: 500 12px/1 var(--workshop-sans);
+  color: var(--workshop-fg);
+}
+.csb-chip-formula {
+  font: 11px/1.3 var(--workshop-mono);
+  color: var(--workshop-fg-4);
+}
+
+.csb-template-btn {
+  display: block;
+  width: 100%;
+  padding: 8px 10px;
+  margin-bottom: 4px;
+  border: 1px solid var(--workshop-rule);
+  border-radius: 6px;
+  background: var(--workshop-bg-2);
+  color: var(--workshop-fg-2);
+  font: 12px/1.4 var(--workshop-sans);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.1s;
+}
+.csb-template-btn:hover { border-color: var(--workshop-accent); }
+
+/* ─── VIEWPORT ───────────────────────────────────────────────────────────── */
+
+.canvas-viewport {
+  grid-area: canvas;
+  position: relative;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+}
+
+.canvas-viewport.panning { cursor: grabbing; }
+.canvas-viewport.wiring  { cursor: crosshair; }
+
+/* ─── CANVAS WORLD (transform applied here) ──────────────────────────────── */
+
+.canvas-world {
+  position: absolute;
+  top: 0; left: 0;
+  width: 4000px; height: 4000px;
+  transform-origin: 0 0;
+}
+
+/* Grid dots background */
+.canvas-world::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--workshop-rule-2) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* ─── WIRE SVG LAYER ─────────────────────────────────────────────────────── */
+
+.wires-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.wire-path {
+  fill: none;
+  stroke: var(--workshop-rule-2);
+  stroke-width: 2;
+  pointer-events: stroke;
+  cursor: pointer;
+  transition: stroke 0.15s;
+}
+.wire-path:hover,
+.wire-path.selected { stroke: var(--workshop-accent); stroke-width: 2.5; }
+
+.wire-preview {
+  fill: none;
+  stroke: var(--workshop-accent);
+  stroke-width: 2;
+  stroke-dasharray: 6 4;
+  pointer-events: none;
+}
+
+/* ─── CANVAS BLOCK ───────────────────────────────────────────────────────── */
+
+.canvas-block {
+  position: absolute;
+  border: 1.5px solid var(--workshop-rule-2);
+  border-radius: 8px;
+  background: var(--workshop-bg);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  cursor: default;
+  transition: border-color 0.1s, box-shadow 0.1s;
+  min-width: 120px;
+  min-height: 60px;
+}
+.canvas-block:hover     { border-color: var(--workshop-rule-2); box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+.canvas-block.selected  { border-color: var(--workshop-accent); box-shadow: 0 0 0 2px var(--workshop-accent-bg-active); }
+.canvas-block.has-cycle { border-color: var(--workshop-negative); box-shadow: 0 0 0 2px rgba(220,38,38,0.12); }
+.canvas-block.dragging  { box-shadow: 0 8px 24px rgba(0,0,0,0.15); cursor: grabbing; }
+
+.cb-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px 5px;
+  border-bottom: 1px solid var(--workshop-rule);
+  cursor: grab;
+  flex-shrink: 0;
+}
+.canvas-block.dragging .cb-header { cursor: grabbing; }
+
+.cb-type-badge {
+  font: 500 9px/1 var(--workshop-sans);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--workshop-fg-4);
+  background: var(--workshop-bg-3);
+  padding: 2px 5px;
+  border-radius: 3px;
+}
+
+.cb-label {
+  font: 500 12px/1 var(--workshop-sans);
+  color: var(--workshop-fg-2);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cb-export-toggle {
+  width: 14px; height: 14px;
+  border-radius: 3px;
+  border: 1.5px solid var(--workshop-rule-2);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+  title: 'Include in export';
+}
+.cb-export-toggle.on {
+  background: var(--workshop-accent);
+  border-color: var(--workshop-accent);
+}
+
+.cb-body {
+  padding: 10px;
+  flex: 1;
+  overflow: hidden;
+  font-size: 12px;
+}
+
+/* ─── PORT DOTS ──────────────────────────────────────────────────────────── */
+
+.port-dot {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--workshop-bg);
+  border: 2px solid var(--workshop-rule-2);
+  cursor: crosshair;
+  transition: border-color 0.1s, background 0.1s, transform 0.1s;
+  z-index: 10;
+}
+.port-dot:hover,
+.port-dot.drag-source {
+  border-color: var(--workshop-accent);
+  background: var(--workshop-accent);
+  transform: scale(1.3);
+}
+.port-dot.input-port {
+  left: -6px;
+}
+.port-dot.output-port {
+  right: -6px;
+}
+.port-dot.can-connect {
+  border-color: var(--workshop-positive);
+  background: var(--workshop-positive);
+  transform: scale(1.4);
+}
+
+/* ─── RESIZE HANDLES ─────────────────────────────────────────────────────── */
+
+.resize-handle {
+  position: absolute;
+  width: 8px; height: 8px;
+  border-radius: 2px;
+  background: var(--workshop-bg);
+  border: 1.5px solid var(--workshop-accent);
+  z-index: 20;
+}
+.resize-handle.se { bottom: -4px; right: -4px; cursor: se-resize; }
+.resize-handle.sw { bottom: -4px; left:  -4px; cursor: sw-resize; }
+.resize-handle.ne { top:    -4px; right: -4px; cursor: ne-resize; }
+.resize-handle.nw { top:    -4px; left:  -4px; cursor: nw-resize; }
+
+/* ─── MARQUEE SELECTION ──────────────────────────────────────────────────── */
+
+.marquee-rect {
+  position: absolute;
+  border: 1.5px solid var(--workshop-accent);
+  background: var(--workshop-accent-bg-active);
+  pointer-events: none;
+  border-radius: 2px;
+}
+
+/* ─── CONTEXT MENU ───────────────────────────────────────────────────────── */
+
+.canvas-context-menu {
+  position: fixed;
+  background: var(--workshop-bg);
+  border: 1px solid var(--workshop-rule-2);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  padding: 4px;
+  z-index: 1000;
+  min-width: 140px;
+}
+
+.ccm-item {
+  display: block;
+  width: 100%;
+  padding: 7px 12px;
+  border: none;
+  background: none;
+  color: var(--workshop-fg);
+  font: 13px/1 var(--workshop-sans);
+  text-align: left;
+  cursor: pointer;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.ccm-item:hover { background: var(--workshop-bg-2); }
+.ccm-item.danger { color: var(--workshop-negative); }
+
+/* ─── EXPORT BADGE ───────────────────────────────────────────────────────── */
+
+.cb-no-export {
+  font: 10px/1 var(--workshop-sans);
+  color: var(--workshop-fg-4);
+  padding: 2px 5px;
+  background: var(--workshop-bg-3);
+  border-radius: 3px;
+}
+
+/* ─── EMPTY CANVAS OVERLAY ───────────────────────────────────────────────── */
+
+.canvas-empty-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.ceo-card {
+  background: var(--workshop-bg);
+  border: 1px solid var(--workshop-rule-2);
+  border-radius: 10px;
+  padding: 28px 32px;
+  max-width: 420px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  pointer-events: auto;
+}
+
+.ceo-title {
+  font: 600 15px/1 var(--workshop-sans);
+  color: var(--workshop-fg);
+  margin-bottom: 8px;
+}
+
+.ceo-sub {
+  font: 13px/1.5 var(--workshop-sans);
+  color: var(--workshop-fg-3);
+  margin-bottom: 20px;
+}
+
+.ceo-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.ceo-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font: 12px/1.5 var(--workshop-sans);
+  color: var(--workshop-fg-2);
+}
+
+.ceo-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--workshop-accent-bg-active);
+  color: var(--workshop-accent);
+  font: 600 11px/1 var(--workshop-sans);
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ceo-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  vertical-align: middle;
+  margin: 0 2px;
+}
+.ceo-dot.out { background: var(--workshop-accent); }
+.ceo-dot.in  { border: 2px solid var(--workshop-accent); background: var(--workshop-bg); }
+
+.ceo-tip {
+  font: 11px/1.4 var(--workshop-sans);
+  color: var(--workshop-fg-4);
+  font-style: italic;
+  border-top: 1px solid var(--workshop-rule);
+  padding-top: 12px;
+}
+
+/* ─── SIDEBAR INLINE CONFIRMATION ────────────────────────────────────────── */
+
+.csb-confirm {
+  padding: 10px 12px;
+  background: var(--workshop-bg-3);
+  border-bottom: 1px solid var(--workshop-rule-2);
+  border-top: 2px solid var(--workshop-accent);
+}
+
+.csb-confirm-text {
+  font: 12px/1.4 var(--workshop-sans);
+  color: var(--workshop-fg-2);
+  margin-bottom: 8px;
+}
+
+.csb-confirm-row {
+  display: flex;
+  gap: 6px;
+}
+
+.csb-confirm-btn {
+  flex: 1;
+  height: 26px;
+  border-radius: 4px;
+  border: 1px solid var(--workshop-rule-2);
+  background: var(--workshop-bg);
+  color: var(--workshop-fg-2);
+  font: 12px/1 var(--workshop-sans);
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.csb-confirm-btn:hover { background: var(--workshop-bg-2); }
+.csb-confirm-btn.danger {
+  background: var(--workshop-negative);
+  border-color: var(--workshop-negative);
+  color: #fff;
+}
+.csb-confirm-btn.danger:hover { opacity: 0.85; }
+
+/* ─── SIDEBAR BLOCK CHIP — plain description replaces formula ────────────── */
+
+.csb-chip-desc {
+  font: 10px/1.3 var(--workshop-sans);
+  color: var(--workshop-fg-4);
+}
