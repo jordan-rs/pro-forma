@@ -22,6 +22,7 @@ export const THEMES: ThemeDefinition[] = [
   { id: 'paper',         label: 'Paper',         description: 'Pure B&W. Montserrat. Prints beautifully.',         cssClass: 'style-paper' },
   { id: 'brutalist',     label: 'Brutalist',     description: 'Anti-grid. Thick rules. Uppercase. Loud.',          cssClass: 'style-brutalist' },
   { id: 'bento',         label: 'Bento',         description: 'Peach paper + soft blue. Friendly modular tiles.',  cssClass: 'style-bento' },
+  { id: 'studio',        label: 'Studio',        description: 'Workshop orange + Inter. Matches the bet-sheet.',     cssClass: 'style-studio' },
 ]
 
 export const defaultThemeId = 'clean'

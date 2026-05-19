@@ -66,6 +66,7 @@
      used for the "conservative" scenario and other muted accent uses.    */
   --accent:      #3B82F6;
   --accent-dim:  #1D4ED8;
+  --accent-opt:  var(--accent);   /* optimistic scenario — defaults to accent; override for 3-color themes */
 
   /* ─── COLOR · STATE ──────────────────────────────────────────────────────
      Semantic colors for warnings/positives. NOT brand — these stay

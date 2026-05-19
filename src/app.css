@@ -170,6 +170,74 @@ html, body, #app { margin: 0; padding: 0; height: 100%; }
   font-weight: 600;
 }
 
+/* ─── MODE TABS ─── */
+.pf-mode-tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--workshop-bg-3);
+  border-radius: 6px;
+  padding: 2px;
+}
+.pf-mode-tab {
+  background: transparent;
+  border: none;
+  color: var(--workshop-fg-3);
+  font: 500 11px/1 var(--workshop-sans);
+  padding: 4px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+.pf-mode-tab:hover { color: var(--workshop-fg); }
+.pf-mode-tab.active {
+  background: var(--workshop-bg);
+  color: var(--workshop-fg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+
+/* ─── BRIEF MODE SHELL ─── */
+.pf-shell--brief {
+  display: grid;
+  grid-template-rows: var(--workshop-topbar-h) 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "topbar"
+    "brief-body";
+  height: 100vh;
+  background: var(--workshop-bg);
+  color: var(--workshop-fg-2);
+  font-family: var(--workshop-sans);
+}
+
+.pf-shell--brief .pf-topbar {
+  grid-area: topbar;
+}
+
+.pf-shell--brief > :not(.pf-topbar) {
+  grid-area: brief-body;
+  overflow: hidden;
+}
+
+/* ─── CANVAS MODE SHELL ─── */
+.pf-shell--canvas {
+  display: grid;
+  grid-template-rows: var(--workshop-topbar-h) 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "topbar"
+    "canvas-body";
+}
+.pf-canvas-body {
+  grid-area: canvas-body;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.pf-canvas-body > * { flex: 1; min-height: 0; }
+
+.pf-topbar-title { color: var(--workshop-fg-3); }
+
+/* ─── PREVIEW ZOOM ─── */
 .pf-preview-zoom {
   /* Render the sheet at its natural 1120px width, then zoom down to fit   */
   /* the ~360px panel. Without explicit width, the sheet collapses to the  */

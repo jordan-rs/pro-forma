@@ -1,0 +1,411 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   BRIEF BUILDER · SHELL + FORM STYLES
+   ─────────────────────────────────────────────────────────────────────────
+   Uses the same workshop CSS tokens (_workshop.css) so colors, fonts, and
+   spacing feel unified. Never reference theme tokens here — the form is
+   always rendered in workshop-dark, never in the exported theme.
+   =========================================================================== */
+
+/* ─── SHELL GRID (topbar handled by App.svelte) ─── */
+.pf-shell--brief {
+  display: grid;
+  grid-template-rows: var(--workshop-topbar-h) 1fr;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "topbar"
+    "brief-body";
+  height: 100vh;
+  background: var(--workshop-bg);
+  color: var(--workshop-fg-2);
+  font-family: var(--workshop-sans);
+}
+
+.pf-brief-body {
+  grid-area: brief-body;
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  overflow: hidden;
+}
+
+/* ─── LEFT FORM PANEL ─── */
+.bf-form {
+  overflow-y: auto;
+  border-right: 1px solid var(--workshop-rule);
+  background: var(--workshop-bg);
+  padding: 0;
+}
+
+/* ─── SECTION ─── */
+.bf-section {
+  border-bottom: 1px solid var(--workshop-rule);
+  padding: 14px 16px;
+}
+
+.bf-section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bf-section h3 {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-3);
+  margin: 0 0 10px;
+}
+
+.bf-section-head h3 {
+  margin-bottom: 0;
+}
+
+/* ─── FORM FIELDS ─── */
+.bf-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 8px;
+}
+
+.bf-field:last-child { margin-bottom: 0; }
+
+.bf-field span,
+.bf-field-label {
+  font-size: 9px;
+  color: var(--workshop-fg-3);
+  letter-spacing: 0.06em;
+}
+
+.bf-field input,
+.bf-field textarea,
+.bf-input,
+.bf-textarea {
+  background: var(--workshop-bg-2, rgba(255,255,255,0.04));
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg);
+  font-family: var(--workshop-sans);
+  font-size: 12px;
+  padding: 5px 8px;
+  border-radius: 3px;
+  width: 100%;
+  transition: border-color 0.1s;
+}
+
+.bf-field input:focus,
+.bf-field textarea:focus,
+.bf-input:focus,
+.bf-textarea:focus {
+  outline: none;
+  border-color: var(--workshop-accent);
+}
+
+.bf-textarea {
+  resize: vertical;
+  min-height: 52px;
+  line-height: 1.5;
+}
+
+.bf-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.bf-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+}
+
+/* ─── ADD BUTTON ─── */
+.bf-add-btn {
+  background: transparent;
+  border: 1px dashed var(--workshop-rule-2);
+  color: var(--workshop-fg-3);
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.1s;
+}
+
+.bf-add-btn:hover {
+  border-color: var(--workshop-accent);
+  color: var(--workshop-accent);
+}
+
+/* ─── VARIABLE ROW ─── */
+.bf-var-row {
+  background: var(--workshop-bg-2, rgba(255,255,255,0.03));
+  border: 1px solid var(--workshop-rule);
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.bf-var-row:last-of-type { margin-bottom: 8px; }
+
+.bf-var-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 6px;
+  margin-bottom: 5px;
+  align-items: center;
+}
+
+.bf-var-ranges {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 56px;
+  gap: 4px;
+}
+
+.bf-var-ranges label {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.bf-var-ranges label span {
+  font-size: 8px;
+  color: var(--workshop-fg-3);
+  letter-spacing: 0.06em;
+}
+
+.bf-var-ranges input {
+  background: var(--workshop-bg-2, rgba(255,255,255,0.04));
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg);
+  font-family: var(--workshop-sans);
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 3px;
+  width: 100%;
+}
+
+.bf-var-ranges input:focus {
+  outline: none;
+  border-color: var(--workshop-accent);
+}
+
+.bf-remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--workshop-fg-3);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 2px 4px;
+  border-radius: 2px;
+  transition: color 0.1s;
+}
+
+.bf-remove-btn:hover { color: var(--workshop-warn, #e74c3c); }
+
+/* ─── FORMULA INPUT ─── */
+.bf-formula-wrap {
+  position: relative;
+}
+
+.bf-formula-input {
+  background: var(--workshop-bg-2, rgba(255,255,255,0.04));
+  border: 1px solid var(--workshop-rule-2);
+  color: var(--workshop-fg);
+  font-family: var(--workshop-mono, 'IBM Plex Mono', monospace);
+  font-size: 12px;
+  padding: 6px 8px;
+  border-radius: 3px;
+  width: 100%;
+  transition: border-color 0.1s;
+}
+
+.bf-formula-input:focus {
+  outline: none;
+  border-color: var(--workshop-accent);
+}
+
+.bf-formula-input.error {
+  border-color: var(--workshop-warn, #e74c3c);
+}
+
+.bf-formula-error {
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--workshop-warn, #e74c3c);
+  font-family: var(--workshop-mono, monospace);
+}
+
+.bf-formula-hint {
+  margin-top: 4px;
+  font-size: 9px;
+  color: var(--workshop-fg-3);
+}
+
+.bf-vars-available {
+  margin-top: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.bf-var-chip {
+  background: var(--workshop-bg-3, rgba(255,255,255,0.06));
+  border: 1px solid var(--workshop-rule);
+  color: var(--workshop-fg-2);
+  font-family: var(--workshop-mono, monospace);
+  font-size: 9px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  cursor: default;
+}
+
+/* ─── COST FIELDS ─── */
+.bf-cost-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+/* ─── RIGHT PREVIEW PANEL ─── */
+.bf-preview {
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--workshop-bg-canvas);
+  border-left: 1px solid var(--workshop-rule);
+  display: flex;
+  flex-direction: column;
+}
+
+.bf-preview-label {
+  padding: 9px 14px;
+  font-family: var(--workshop-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-3);
+  border-bottom: 1px solid var(--workshop-rule);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bf-preview-label .pvl-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--workshop-accent);
+  flex-shrink: 0;
+}
+
+.bf-compose-bar {
+  border-bottom: 1px solid var(--workshop-rule);
+  padding: 6px 10px;
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+  background: var(--workshop-bg);
+  align-items: center;
+}
+
+.bf-compose-bar .pcb-label {
+  font-size: 8px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--workshop-fg-3);
+}
+
+.bf-compose-bar .pcb-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.bf-preview-zoom {
+  width: 1120px;
+  zoom: 0.32;
+  flex-shrink: 0;
+}
+
+/* ─── BRIEF PREVIEW · VARIABLE GRID IN FUNNEL SLOT ─── */
+.bf-variables {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bf-var-display {
+  display: grid;
+  grid-template-columns: 120px 1fr auto;
+  gap: 12px;
+  align-items: baseline;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.bf-var-display:last-of-type { border-bottom: none; }
+
+.bf-var-display-name {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.bf-var-display-label {
+  font-size: 13px;
+  color: var(--fg-2);
+}
+
+.bf-var-display-range {
+  font-family: var(--mono-font);
+  font-size: 11px;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.bf-sc-low  { color: var(--fg-3); }
+.bf-sc-base { color: var(--fg); font-weight: 600; }
+.bf-sc-high { color: var(--accent); }
+.bf-sc-sep  { color: var(--rule-2); }
+.bf-var-unit { color: var(--fg-3); font-size: 9px; }
+
+.bf-formula-display {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--rule-2);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.bf-formula-display-label {
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--fg-3);
+}
+
+.bf-formula-display code {
+  font-family: var(--mono-font);
+  font-size: 14px;
+  color: var(--fg);
+}
+
+.bf-formula-display .bf-formula-error {
+  font-size: 11px;
+  color: var(--warn, #e74c3c);
+  font-style: italic;
+  margin-top: 2px;
+}
+
+.bf-preview-empty {
+  opacity: 0.38;
+  font-style: italic;
+}

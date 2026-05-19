@@ -67,6 +67,106 @@
   gap: var(--gap);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   LAYOUT: BETSHEET — Scenario-first
+   ═══════════════════════════════════════════════════════════════════════════
+   Mirrors the workshop bet-sheet reading order: outcomes first (3 hero
+   cards), then cost with weight, then mechanism + chart.
+
+   Key decisions vs other layouts:
+   - Scenario cards are INDIVIDUAL boxes with colored left borders, not
+     nested inside a shared container.
+   - M24 net (2-year return) is promoted to hero number via flex order.
+   - Position gets a warn-colored left stripe to signal locked cost.
+   =========================================================================== */
+
+.layout-betsheet .pf-sheet-main {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-areas:
+    "header    header    header"
+    "headline  headline  headline"
+    "scenarios scenarios scenarios"
+    "position  position  position"
+    "funnel    chart     chart"
+    "footer    footer    footer";
+  padding: 36px 40px;
+  gap: var(--gap);
+}
+
+.layout-betsheet .c-summary   { display: none; }
+.layout-betsheet .c-execution { display: none; }
+
+/* ─── Scenarios: 3 independent cards, each with colored left border ─── */
+.layout-betsheet .c-scenarios {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+}
+.layout-betsheet .c-scenarios .head { display: none; }
+.layout-betsheet .c-scenarios .grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gap);
+}
+.layout-betsheet .c-scenarios .sc {
+  background: var(--bg-2);
+  border: var(--rule-width) solid var(--rule);
+  border-radius: var(--radius);
+  border-left-width: 3px;
+  padding: 20px 18px 22px;
+  display: flex;
+  flex-direction: column;
+  border-right: var(--rule-width) solid var(--rule);
+  border-bottom: var(--rule-width) solid var(--rule);
+}
+
+/* Left border color per scenario — matches workshop color coding */
+.layout-betsheet .c-scenarios .sc-cons { border-left-color: var(--accent-dim); }
+.layout-betsheet .c-scenarios .sc-mid  { border-left-color: var(--accent); }
+.layout-betsheet .c-scenarios .sc-opt  { border-left-color: var(--accent-opt); }
+
+/* Scenario name: colored label at top, mono uppercase */
+.layout-betsheet .c-scenarios .sc .name {
+  order: 1;
+  font-family: var(--mono-font);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.layout-betsheet .c-scenarios .sc-cons .name { color: var(--accent-dim); }
+.layout-betsheet .c-scenarios .sc-mid  .name { color: var(--accent); }
+.layout-betsheet .c-scenarios .sc-opt  .name { color: var(--accent-opt); }
+
+/* M24 net: promoted to hero — big number first */
+.layout-betsheet .c-scenarios .sc .m24   { order: 2; font-size: 40px; line-height: 1; margin-bottom: 2px; }
+.layout-betsheet .c-scenarios .sc .m24-l { order: 3; font-size: 10px; color: var(--fg-3); margin-bottom: 16px; letter-spacing: 0.06em; }
+
+/* Payback: secondary stat below the hero number */
+.layout-betsheet .c-scenarios .sc .pb-l { order: 4; }
+.layout-betsheet .c-scenarios .sc .pb   { order: 5; font-size: 22px; margin-bottom: 8px; }
+.layout-betsheet .c-scenarios .sc .lev  { order: 6; margin-top: auto; padding-top: 12px; border-top: var(--rule-width) dashed var(--rule-2); }
+
+/* ─── Position: cost with weight — warn left stripe, 2-column ─── */
+.layout-betsheet .c-position {
+  display: grid;
+  grid-template-columns: minmax(240px, 1fr) 1.6fr;
+  gap: 28px;
+  align-items: stretch;
+  border-left: 3px solid var(--warn);
+  border-radius: 0 var(--radius) var(--radius) 0;
+}
+.layout-betsheet .c-position .lead { display: flex; flex-direction: column; gap: 10px; }
+.layout-betsheet .c-position .buys {
+  margin-top: 0;
+  padding-top: 0;
+  padding-left: 28px;
+  border-top: none;
+  border-left: var(--rule-width) dashed var(--rule-2);
+}
+
 /* ─── BRUTALIST OVERRIDES ─── */
 .style-brutalist .pf-sheet-main {
   padding: 0 !important;

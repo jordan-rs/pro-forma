@@ -1,0 +1,51 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   THEME · STUDIO
+   ═══════════════════════════════════════════════════════════════════════════
+   Vibe:   Matches the ProForma workshop bet-sheet aesthetic exactly.
+           Orange accent, blue conservative, Inter + DM Mono, pure white.
+           What you built the doc in — as the doc you send.
+   When to use: internal audiences already familiar with the workshop.
+   =========================================================================== */
+.style-studio {
+  /* COLOR · SURFACE */
+  --bg:    #FFFFFF;
+  --bg-2:  #F9FAFB;
+  --bg-3:  #F3F4F6;
+
+  /* COLOR · FOREGROUND */
+  --fg:    #111827;
+  --fg-2:  #374151;
+  --fg-3:  #6B7280;
+
+  /* COLOR · RULES */
+  --rule:        rgba(17, 24, 39, 0.09);
+  --rule-2:      rgba(17, 24, 39, 0.16);
+  --rule-width:  1px;
+
+  /* COLOR · ACCENT — matches workshop: blue cons / orange mid / green opt */
+  --accent:      #E05C20;
+  --accent-dim:  #2563EB;
+  --accent-opt:  #16A34A;
+
+  /* COLOR · STATE */
+  --warn:        #DC2626;
+  --positive:    #16A34A;
+
+  /* TYPOGRAPHY — Inter + DM Mono, matching workshop chrome */
+  --display-font:  'Inter', system-ui, sans-serif;
+  --body-font:     'Inter', system-ui, sans-serif;
+  --mono-font:     'DM Mono', 'JetBrains Mono', monospace;
+  --display-weight:    700;
+  --display-italic:    normal;
+  --display-tracking:  -0.025em;
+  --display-transform: none;
+  --display-opsz:      48;
+
+  /* SPACING */
+  --pad:  24px;
+  --gap:  16px;
+
+  /* RADIUS */
+  --radius:    6px;
+  --radius-sm: 3px;
+}

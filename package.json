@@ -5,6 +5,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "build:mcp": "mkdir -p server && echo '{\"type\":\"commonjs\"}' > server/package.json && tsc -p tsconfig.mcp.json",
+    "build:bundle": "npm run build && npm run build:mcp && node scripts/bundle.js",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
@@ -13,10 +15,14 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^7.1.2",
     "@tsconfig/svelte": "^5.0.8",
+    "@types/node": "^25.9.0",
     "svelte": "^5.55.5",
     "svelte-check": "^4.4.8",
     "typescript": "^6.0.3",
     "vite": "^8.0.13",
     "vite-plugin-singlefile": "^2.3.3"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0"
   }
 }

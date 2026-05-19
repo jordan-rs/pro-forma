@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "outDir": "server",
+    "rootDir": "src",
+    "module": "CommonJS",
+    "moduleResolution": "node10",
+    "ignoreDeprecations": "6.0",
+    "target": "ES2022",
+    "strict": true,
+    "noImplicitAny": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/mcp-server/**/*",
+    "src/brief/briefSchema.ts",
+    "src/brief/briefToComputeGraph.ts",
+    "src/brief/formulaParser.ts",
+    "src/canvas/canvasCompute.ts",
+    "src/canvas/canvasSchema.ts",
+    "src/schema.ts"
+  ]
+}

@@ -398,7 +398,7 @@
 }
 .sc-cons .pb, .sc-cons .m24 { color: var(--accent-dim); }
 .sc-mid  .pb, .sc-mid  .m24 { color: var(--accent); }
-.sc-opt  .pb, .sc-opt  .m24 { color: var(--accent); }
+.sc-opt  .pb, .sc-opt  .m24 { color: var(--accent-opt); }
 
 
 /* ═══ POSITION ═══ */

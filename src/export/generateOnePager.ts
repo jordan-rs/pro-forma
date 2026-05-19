@@ -35,13 +35,14 @@ import institutionalCSS from '../themes/institutional.css?raw'
 import paperCSS         from '../themes/paper.css?raw'
 import brutalistCSS     from '../themes/brutalist.css?raw'
 import bentoCSS         from '../themes/bento.css?raw'
+import studioCSS        from '../themes/studio.css?raw'
 import layoutsCSS       from '../layouts/layouts.css?raw'
 
 // Assembled: defaults → base components → per-theme token overrides
 const themesCSS = [
   contractCSS, baseCSS,
   cleanCSS, editorialCSS, terminalCSS, modernCSS,
-  institutionalCSS, paperCSS, brutalistCSS, bentoCSS,
+  institutionalCSS, paperCSS, brutalistCSS, bentoCSS, studioCSS,
 ].join('\n')
 
 
@@ -54,7 +55,7 @@ const themesCSS = [
 
 const FONTS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inconsolata:wght@400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Montserrat:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Poppins:wght@300;400;500;600;700&family=PT+Mono&family=Roboto:wght@300;400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">`
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700&family=Archivo+Narrow:wght@400;500;600;700&family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=DM+Mono:wght@400;500&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Serif:ital,wght@0,300;0,400;0,500;0,600;1,400;1,500&family=Inconsolata:wght@400;500;600&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Montserrat:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..600;1,6..72,300..500&family=Poppins:wght@300;400;500;600;700&family=PT+Mono&family=Roboto:wght@300;400;500;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..700;1,8..60,300..600&display=swap" rel="stylesheet">`
 
 
 // ─── STUDIO BAR CSS ─────────────────────────────────────────────────────────

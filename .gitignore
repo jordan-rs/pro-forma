@@ -1,5 +1,8 @@
 node_modules/
 dist/
+server/
+bundle/
+*.mcpb
 .DS_Store
 .serena/
 context.txt

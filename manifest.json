@@ -1,0 +1,42 @@
+{
+  "manifest_version": "0.3",
+  "name": "proforma-brief",
+  "display_name": "ProForma Brief Builder",
+  "version": "1.0.0",
+  "description": "Build business case decision briefs through conversation. Describe your decision; Claude extracts variables, estimates ranges, drafts narrative, and populates a live four-act brief you can export.",
+  "long_description": "ProForma Brief Builder turns a conversation into a structured decision artifact. Describe a make-vs-buy decision, a vendor evaluation, or any initiative with uncertain payoff — Claude identifies the key variables, assigns conservative/base/optimistic ranges, writes a payoff formula, and authors all four acts of a narrative brief. The brief updates live in your browser as Claude works. When you're done, export a standalone HTML file you can share with any stakeholder.",
+  "author": {
+    "name": "Jordan Shear",
+    "email": "jordan.shear@ramseysolutions.com"
+  },
+  "server": {
+    "type": "node",
+    "entry_point": "server/mcp-server/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/server/mcp-server/index.js"],
+      "env": {
+        "PROFORMA_APP_DIR": "${__dirname}/app"
+      }
+    }
+  },
+  "tools": [
+    { "name": "ensure_app_running",  "description": "Start the ProForma web app and return its URL" },
+    { "name": "update_brief",        "description": "Set brief variables, formula, costs, and narrative content" },
+    { "name": "get_brief_computed",  "description": "Get computed scenario results: payback month and M24 net for low/base/high" },
+    { "name": "get_app_status",      "description": "Check if the web app is running and how much idle time remains" },
+    { "name": "extend_lifetime",     "description": "Extend the web app's idle timeout" },
+    { "name": "close_app",           "description": "Close the web app and free the port" }
+  ],
+  "prompts": [
+    {
+      "name": "new_brief",
+      "description": "Start building a decision brief",
+      "text": "I want to build a business case brief for a decision I'm working on."
+    }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32"],
+    "runtimes": { "node": ">=18.0.0" }
+  }
+}
